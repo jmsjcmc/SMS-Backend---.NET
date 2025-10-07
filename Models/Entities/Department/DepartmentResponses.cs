@@ -32,6 +32,6 @@
         public RecordStatus RecordStatus { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
-        public PositionResponse Position { get; set; } // Position
+        public List<PositionResponse> Position { get; set; } // Position
     }
 }

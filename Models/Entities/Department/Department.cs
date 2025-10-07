@@ -36,6 +36,7 @@ namespace SMS_backend.Models.Entities
         public PositionMapper()
         {
             CreateMap<CreatePositionRequest, Position>();
+            CreateMap<UpdatePositionRequest, Position>();
             CreateMap<Position, PositionResponse>();
             CreateMap<Position, PositionWithDepartmentResponse>()
                 .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.Department.Name));

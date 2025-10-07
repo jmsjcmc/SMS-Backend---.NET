@@ -53,6 +53,21 @@ namespace SMS_backend.Controllers
             var response = await _departmentService.PaginatedActiveDepartments(pageNumber, pageSize, searchTerm);
             return response;
         }
+        [HttpGet("department/list-with-positions")]
+        public async Task<ActionResult<List<DepartmentWithPositionResponse>>> DepartmentWithPositionsList(string searchTerm)
+        {
+            var response = await _departmentService.DepartmentWithPositionsList(searchTerm);
+            return response;
+        }
+        [HttpGet("departments/paginated-with-positions")]
+        public async Task<ActionResult<Pagination<DepartmentWithPositionResponse>>> PaginatedDepartmentWithPositions(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _departmentService.PaginatedDepartmentWithPositions(pageNumber, pageSize, searchTerm);
+            return response;
+        }
         [HttpGet("departments/list")]
         public async Task<ActionResult<List<DepartmentResponse>>> DepartmentsList(string searchTerm)
         {
@@ -72,6 +87,12 @@ namespace SMS_backend.Controllers
         public async Task<ActionResult<DepartmentResponse>> GetDepartmentById(int id)
         {
             var response = await _departmentService.GetDepartmentByID(id);
+            return response;
+        }
+        [HttpGet("department/with-positions/{id}")]
+        public async Task<ActionResult<DepartmentWithPositionResponse>> GetDepartmentWithPositionsByID(int id)
+        {
+            var response = await _departmentService.GetDepartmentWithPositionsByID(id);
             return response;
         }
     }
