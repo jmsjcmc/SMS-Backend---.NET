@@ -103,13 +103,13 @@ namespace SMS_backend.Controllers
                 return query;
             }
         }
-        public async Task<User?> GetUserByID(Guid id)
+        public async Task<User?> GetUserByID(int id)
         {
             return await _context.User
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
-        public async Task<User?> PatchUserByID(Guid id)
+        public async Task<User?> PatchUserByID(int id)
         {
             return await _context.User
                 .FirstOrDefaultAsync(u => u.Id == id);
@@ -131,7 +131,8 @@ namespace SMS_backend.Controllers
                     .Where(r => r.Name.Contains(searchTerm))
                     .OrderByDescending(r => r.Id)
                     .ToListAsync();
-            } else
+            }
+            else
             {
                 return await _context.Role
                     .AsNoTracking()
@@ -167,7 +168,7 @@ namespace SMS_backend.Controllers
             {
                 return await _context.Role
                     .AsNoTracking()
-                    .Where(r => r.Name.Contains(searchTerm) || 
+                    .Where(r => r.Name.Contains(searchTerm) ||
                     r.RecordStatus == RecordStatus.Active)
                     .OrderByDescending(r => r.Id)
                     .ToListAsync();
@@ -205,13 +206,13 @@ namespace SMS_backend.Controllers
                 return query;
             }
         }
-        public async Task<Role?> GetRoleByID(Guid id)
+        public async Task<Role?> GetRoleByID(int id)
         {
             return await _context.Role
                 .AsNoTracking()
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
-        public async Task<Role?> PatchRoleByID(Guid id)
+        public async Task<Role?> PatchRoleByID(int id)
         {
             return await _context.Role
                 .FirstOrDefaultAsync(r => r.Id == id);

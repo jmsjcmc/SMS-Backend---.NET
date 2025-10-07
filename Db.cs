@@ -11,5 +11,13 @@ namespace SMS_backend
         }
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<Department> Department { get; set; }
+        public DbSet<Position> Position { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Db).Assembly);
+        }
     }
 }

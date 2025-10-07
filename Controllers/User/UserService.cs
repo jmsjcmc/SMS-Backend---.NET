@@ -18,11 +18,11 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
-        Task<UserResponse> GetUserByID(Guid id);
+        Task<UserResponse> GetUserByID(int id);
         Task<UserResponse> CreateUser(CreateUserRequest request);
-        Task<UserResponse> UpdateUserByID(UpdateUserRequest request, Guid id);
-        Task<UserResponse> RemoveUserByID(Guid id);
-        Task<UserResponse> DeleteUserByID(Guid id);
+        Task<UserResponse> UpdateUserByID(UpdateUserRequest request, int id);
+        Task<UserResponse> RemoveUserByID(int id);
+        Task<UserResponse> DeleteUserByID(int id);
     }
     public class UserService : UserInterface
     {
@@ -66,7 +66,7 @@ namespace SMS_backend.Controllers
             return await PaginationHelper.PaginateAndMap<User, UserResponse>(query, pageNumber, pageSize, _mapper);
         }
         // [HttpGet("user/{id}")]
-        public async Task<UserResponse> GetUserByID(Guid id)
+        public async Task<UserResponse> GetUserByID(int id)
         {
             var user = await _queries.GetUserByID(id);
             return _mapper.Map<UserResponse>(user);
@@ -92,7 +92,7 @@ namespace SMS_backend.Controllers
             }
         }
         // [HttpPatch("user/update/{id}")]
-        public async Task<UserResponse> UpdateUserByID(UpdateUserRequest request, Guid id)
+        public async Task<UserResponse> UpdateUserByID(UpdateUserRequest request, int id)
         {
             var user = await _queries.PatchUserByID(id);
 
@@ -104,7 +104,7 @@ namespace SMS_backend.Controllers
             return _mapper.Map<UserResponse>(user);
         }
         // [HttpPatch("user/toggle-status/{id}")]
-        public async Task<UserResponse> RemoveUserByID(Guid id)
+        public async Task<UserResponse> RemoveUserByID(int id)
         {
             var user = await _queries.PatchUserByID(id);
 
@@ -117,7 +117,7 @@ namespace SMS_backend.Controllers
             return _mapper.Map<UserResponse>(user);
         }
         // [HttpDelete("user/delete/{id}")]
-        public async Task<UserResponse> DeleteUserByID(Guid id)
+        public async Task<UserResponse> DeleteUserByID(int id)
         {
             var user = await _queries.PatchUserByID(id);
             _context.User.Remove(user);
@@ -138,11 +138,11 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
-        Task<RoleResponse> GetRoleByID(Guid id);
+        Task<RoleResponse> GetRoleByID(int id);
         Task<RoleResponse> CreateRole(string roleName);
-        Task<RoleResponse> UpdateRoleByID(string roleName, Guid id);
-        Task<RoleResponse> RemoveRoleByID(Guid id);
-        Task<RoleResponse> DeletRoleByID(Guid id);
+        Task<RoleResponse> UpdateRoleByID(string roleName, int id);
+        Task<RoleResponse> RemoveRoleByID(int id);
+        Task<RoleResponse> DeletRoleByID(int id);
     }
     public class RoleService : RoleInterface
     {
@@ -187,7 +187,7 @@ namespace SMS_backend.Controllers
             return await PaginationHelper.PaginateAndMap<Role, RoleResponse>(query, pageNumber, pageSize, _mapper);
         }
         // [HttpGet("role/{id}")]
-        public async Task<RoleResponse> GetRoleByID(Guid id)
+        public async Task<RoleResponse> GetRoleByID(int id)
         {
             var role = await _queries.GetRoleByID(id);
             return _mapper.Map<RoleResponse>(role);
@@ -213,7 +213,7 @@ namespace SMS_backend.Controllers
             }
         }
         // [HttpPatch("role/update/{id}")]
-        public async Task<RoleResponse> UpdateRoleByID(string roleName, Guid id)
+        public async Task<RoleResponse> UpdateRoleByID(string roleName, int id)
         {
             var role = await _queries.PatchRoleByID(id);
 
@@ -223,7 +223,7 @@ namespace SMS_backend.Controllers
             return _mapper.Map<RoleResponse>(role);
         }
         // [HttpPatch("role/toggle-status/{id}")]
-        public async Task<RoleResponse> RemoveRoleByID(Guid id)
+        public async Task<RoleResponse> RemoveRoleByID(int id)
         {
             var role = await _queries.PatchRoleByID(id);
 
@@ -236,7 +236,7 @@ namespace SMS_backend.Controllers
             return _mapper.Map<RoleResponse>(role);
         }
         // [HttpDelete("role/delete/{id}")]
-        public async Task<RoleResponse> DeletRoleByID(Guid id)
+        public async Task<RoleResponse> DeletRoleByID(int id)
         {
             var role = await _queries.PatchRoleByID(id);
 

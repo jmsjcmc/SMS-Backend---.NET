@@ -21,19 +21,19 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpPatch("user/update/{id}")]
-        public async Task<ActionResult<UserResponse>> UpdateUserByID([FromBody] UpdateUserRequest request, Guid id)
+        public async Task<ActionResult<UserResponse>> UpdateUserByID([FromBody] UpdateUserRequest request, int id)
         {
             var response = await _userService.UpdateUserByID(request, id);
             return response;
         }
         [HttpPatch("user/toggle-status/{id}")]
-        public async Task<ActionResult<UserResponse>> RemoveUserByID(Guid id)
+        public async Task<ActionResult<UserResponse>> RemoveUserByID(int id)
         {
             var response = await _userService.RemoveUserByID(id);
             return response;
         }
         [HttpDelete("user/delete/{id}")]
-        public async Task<ActionResult<UserResponse>> DeleteUserByID(Guid id)
+        public async Task<ActionResult<UserResponse>> DeleteUserByID(int id)
         {
             var response = await _userService.DeleteUserByID(id);
             return response;
@@ -66,7 +66,7 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<UserResponse>> GetUserByID(Guid id)
+        public async Task<ActionResult<UserResponse>> GetUserByID(int id)
         {
             var response = await _userService.GetUserByID(id);
             return response;
@@ -86,19 +86,19 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpPatch("role/update/{id}")]
-        public async Task<ActionResult<RoleResponse>> UpdateRoleByID(string roleName, Guid id)
+        public async Task<ActionResult<RoleResponse>> UpdateRoleByID(string roleName, int id)
         {
             var response = await _roleService.UpdateRoleByID(roleName, id);
             return response;
         }
         [HttpPatch("role/toggle-status/{id}")]
-        public async Task<ActionResult<RoleResponse>> RemoveRoleByID(Guid id)
+        public async Task<ActionResult<RoleResponse>> RemoveRoleByID(int id)
         {
             var response = await _roleService.RemoveRoleByID(id);
             return response;
         }
         [HttpDelete("role/delete/{id}")]
-        public async Task<ActionResult<RoleResponse>> DeleteRoleByID(Guid id)
+        public async Task<ActionResult<RoleResponse>> DeleteRoleByID(int id)
         {
             var response = await _roleService.DeletRoleByID(id);
             return response;
@@ -134,7 +134,7 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpGet("role/{id}")]
-        public async Task<ActionResult<RoleResponse>> GetUserByID(Guid id)
+        public async Task<ActionResult<RoleResponse>> GetUserByID(int id)
         {
             var response = await _roleService.GetRoleByID(id);
             return response;

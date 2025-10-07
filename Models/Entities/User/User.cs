@@ -4,7 +4,7 @@ namespace SMS_backend.Models.Entities
 {
     public class User
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
@@ -12,6 +12,7 @@ namespace SMS_backend.Models.Entities
         public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; } = null;
         public RecordStatus RecordStatus { get; set; }
+        public ICollection<UserRole> UserRole { get; set; }
     }
 
     public class UserMapper : Profile
@@ -29,9 +30,10 @@ namespace SMS_backend.Models.Entities
     }
     public class Role
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public RecordStatus RecordStatus { get; set; }
+        public ICollection<UserRole> UserRole { get; set; }
     }
     public class RoleMapper : Profile
     {
@@ -39,5 +41,14 @@ namespace SMS_backend.Models.Entities
         {
             CreateMap<Role, RoleResponse>();
         }
+    }
+    public class UserRole
+    {
+        public User User { get; set; }
+        public int UserId { get; set; }
+        public Role Role { get; set; }
+        public int RoleId { get; set; }
+        public RecordStatus Status { get; set; }
+        public DateTime AssignedAt { get; set; }
     }
 }
