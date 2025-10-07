@@ -96,4 +96,87 @@ namespace SMS_backend.Controllers
             return response;
         }
     }
+    public class PositionController : ControllerBase
+    {
+        private readonly PositionService _positionService;
+        public PositionController(PositionService positionService)
+        {
+            _positionService = positionService;
+        }
+        [HttpPost("position/create")]
+        public async Task<ActionResult<PositionResponse>> CreatePosition([FromBody] CreatePositionRequest request)
+        {
+            var response = await _positionService.CreatePosition(request);
+            return response;
+        }
+        [HttpPatch("position/update/{id}")]
+        public async Task<ActionResult<PositionResponse>> UpdatePositionByID([FromBody] UpdatePositionRequest request, int id)
+        {
+            var response = await _positionService.UpdatePositionByID(request, id);
+            return response;
+        }
+        [HttpPatch("position/toggle-status/{id}")]
+        public async Task<ActionResult<PositionResponse>> RemovePositionByID(int id)
+        {
+            var response = await _positionService.RemovePositionByID(id);
+            return response;
+        }
+        [HttpDelete("position/delete/{id}")]
+        public async Task<ActionResult<PositionResponse>> DeletePositionByID(int id)
+        {
+            var response = await _positionService.DeletePositionByID(id);
+            return response;
+        }
+        [HttpGet("positions/active-list")]
+        public async Task<ActionResult<List<PositionResponse>>> ActivePositionsList(string searchTerm)
+        {
+            var response = await _positionService.ActivePositionsList(searchTerm);
+            return response;
+        }
+        [HttpGet("positions/active-paginated")]
+        public async Task<ActionResult<Pagination<PositionResponse>>> PaginatedActivePositions(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _positionService.PaginatedActivePositions(pageNumber, pageSize, searchTerm);
+            return response;
+        }
+        [HttpGet("positions/list-with-department")]
+        public async Task<ActionResult<List<PositionWithDepartmentResponse>>> PositionWithDepartmentList(string searchTerm)
+        {
+            var response = await _positionService.PositionWithDepartmentList(searchTerm);
+            return response;
+        }
+        [HttpGet("positions/paginated-with-departments")]
+        public async Task<ActionResult<Pagination<PositionWithDepartmentResponse>>> PaginatedPositionWithDepartment(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _positionService.PaginatedPositionsWithDepartment(pageNumber, pageSize, searchTerm);
+            return response;
+        }
+        [HttpGet("positions/list")]
+        public async Task<ActionResult<List<PositionResponse>>> PositionsList(string searchTerm)
+        {
+            var response = await _positionService.PositionsList(searchTerm);
+            return response;
+        }
+        [HttpGet("positions/paginated")]
+        public async Task<ActionResult<Pagination<PositionResponse>>> PaginatedPositions(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _positionService.PaginatedPositions(pageNumber, pageSize, searchTerm);
+            return response;
+        }
+        [HttpGet("position/{id}")]
+        public async Task<ActionResult<PositionResponse>> GetPositionByID(int id)
+        {
+            var response = await _positionService.GetPositionByID(id);
+            return response;
+        }
+    }
 }
