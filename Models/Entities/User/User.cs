@@ -10,6 +10,8 @@ namespace SMS_backend.Models.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public DateTime DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; } = null;
+        public RecordStatus RecordStatus { get; set; }
     }
 
     public class UserMapper : Profile
@@ -18,7 +20,24 @@ namespace SMS_backend.Models.Entities
         {
             CreateMap<CreateUserRequest, User>()
                 .ForMember(d => d.Password, o => o.Ignore());
+
+            CreateMap<UpdateUserRequest, User>()
+                .ForMember(d => d.Password, o => o.Ignore());
+
             CreateMap<User, UserResponse>();
+        }
+    }
+    public class Role
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+    }
+    public class RoleMapper : Profile
+    {
+        public RoleMapper()
+        {
+            CreateMap<Role, RoleResponse>();
         }
     }
 }

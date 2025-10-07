@@ -1,5 +1,7 @@
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using SMS_backend;
+using SMS_backend.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +11,13 @@ builder.Services.AddDbContext<Db>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
 });
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddServices();
+builder.Services.AddQueries();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

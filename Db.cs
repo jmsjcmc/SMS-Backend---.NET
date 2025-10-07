@@ -10,5 +10,6 @@ namespace SMS_backend
 
         }
         public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
     }
 }
