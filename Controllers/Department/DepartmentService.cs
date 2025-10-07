@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SMS_backend.Models;
 using SMS_backend.Models.Entities;
 using SMS_backend.Utils;
@@ -100,16 +101,22 @@ namespace SMS_backend.Controllers
         // [HttpPost("department/create")]
         public async Task<DepartmentResponse> CreateDepartment(string departmentName)
         {
-            var department = new Department
+            if (await _context.Department.AnyAsync(d => d.Name == departmentName))
             {
-                Name = departmentName,
-                RecordStatus = RecordStatus.Active,
-                DateCreated = DateTimeHelper.GetPhilippineStandardTime()
-            };
+                throw new ArgumentException("Department Name exist.");
+            } else
+            {
+                var department = new Department
+                {
+                    Name = departmentName,
+                    RecordStatus = RecordStatus.Active,
+                    DateCreated = DateTimeHelper.GetPhilippineStandardTime()
+                };
 
-            await _context.Department.AddAsync(department);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<DepartmentResponse>(department);
+                await _context.Department.AddAsync(department);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<DepartmentResponse>(department);
+            }
         }
         // [HttpPatch("department/update/{id}")]
         public async Task<DepartmentResponse> UpdateDepartmentByID(string departmentName, int id)
@@ -231,14 +238,20 @@ namespace SMS_backend.Controllers
         // [HttpPost("position/create")]
         public async Task<PositionResponse> CreatePosition(CreatePositionRequest request)
         {
-            var position = _mapper.Map<Position>(request);
-            position.RecordStatus = RecordStatus.Active;
-            position.DateCreated = DateTimeHelper.GetPhilippineStandardTime();
+            if (await _context.Position.AnyAsync(p => p.Name == request.Name))
+            {
+                throw new ArgumentException("Position Name exist");
+            } else
+            {
+                var position = _mapper.Map<Position>(request);
+                position.RecordStatus = RecordStatus.Active;
+                position.DateCreated = DateTimeHelper.GetPhilippineStandardTime();
 
-            await _context.Position.AddAsync(position);
-            await _context.SaveChangesAsync();
+                await _context.Position.AddAsync(position);
+                await _context.SaveChangesAsync();
 
-            return _mapper.Map<PositionResponse>(position);
+                return _mapper.Map<PositionResponse>(position);
+            }
         }
         // [HttpPatch("position/update/{id}")]
         public async Task<PositionResponse> UpdatePositionByID(UpdatePositionRequest request, int id)
