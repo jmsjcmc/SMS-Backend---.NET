@@ -72,4 +72,72 @@ namespace SMS_backend.Controllers
             return response;
         }
     }
+    public class RoleController : ControllerBase
+    {
+        private readonly RoleService _roleService;
+        public RoleController(RoleService roleService)
+        {
+            _roleService = roleService;
+        }
+        [HttpPost("role/create")]
+        public async Task<ActionResult<RoleResponse>> CreateRole(string roleName)
+        {
+            var response = await _roleService.CreateRole(roleName);
+            return response;
+        }
+        [HttpPatch("role/update/{id}")]
+        public async Task<ActionResult<RoleResponse>> UpdateRoleByID(string roleName, Guid id)
+        {
+            var response = await _roleService.UpdateRoleByID(roleName, id);
+            return response;
+        }
+        [HttpPatch("role/toggle-status/{id}")]
+        public async Task<ActionResult<RoleResponse>> RemoveRoleByID(Guid id)
+        {
+            var response = await _roleService.RemoveRoleByID(id);
+            return response;
+        }
+        [HttpDelete("role/delete/{id}")]
+        public async Task<ActionResult<RoleResponse>> DeleteRoleByID(Guid id)
+        {
+            var response = await _roleService.DeletRoleByID(id);
+            return response;
+        }
+        [HttpGet("roles/active-list")]
+        public async Task<ActionResult<List<RoleResponse>>> ActiveRolesList(string searchTerm)
+        {
+            var response = await _roleService.ActiveRolesList(searchTerm);
+            return response;
+        }
+        [HttpGet("roles/active-paginated")]
+        public async Task<ActionResult<Pagination<RoleResponse>>> PaginatedActiveRoles(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _roleService.PaginatedActiveRoles(pageNumber, pageSize, searchTerm);
+            return response;
+        }
+        [HttpGet("roles/list")]
+        public async Task<ActionResult<List<RoleResponse>>> RolesList(string searchTerm)
+        {
+            var response = await _roleService.RolesList(searchTerm);
+            return response;
+        }
+        [HttpGet("roles/paginated")]
+        public async Task<ActionResult<Pagination<RoleResponse>>> PaginatedRoles(
+            int pageNumber = 1,
+            int pageSize = 10,
+            string searchTerm = null)
+        {
+            var response = await _roleService.PaginatedRoles(pageNumber, pageSize, searchTerm);
+            return response;
+        }
+        [HttpGet("role/{id}")]
+        public async Task<ActionResult<RoleResponse>> GetUserByID(Guid id)
+        {
+            var response = await _roleService.GetRoleByID(id);
+            return response;
+        }
+    }
 }

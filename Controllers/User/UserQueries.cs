@@ -115,4 +115,106 @@ namespace SMS_backend.Controllers
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
+    public class RoleQueries
+    {
+        private readonly Db _context;
+        public RoleQueries(Db context)
+        {
+            _context = context;
+        }
+        public async Task<List<Role>> RolesList(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.Name.Contains(searchTerm))
+                    .OrderByDescending(r => r.Id)
+                    .ToListAsync();
+            } else
+            {
+                return await _context.Role
+                    .AsNoTracking()
+                    .OrderByDescending(r => r.Id)
+                    .ToListAsync();
+            }
+        }
+        public IQueryable<Role> PaginatedRoles(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.Name.Contains(searchTerm))
+                    .OrderByDescending(r => r.Id)
+                    .AsQueryable();
+
+                return query;
+            }
+            else
+            {
+                var query = _context.Role
+                    .AsNoTracking()
+                    .OrderByDescending(r => r.Id)
+                    .AsQueryable();
+
+                return query;
+            }
+        }
+        public async Task<List<Role>> ActiveRolesList(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.Name.Contains(searchTerm) || 
+                    r.RecordStatus == RecordStatus.Active)
+                    .OrderByDescending(r => r.Id)
+                    .ToListAsync();
+            }
+            else
+            {
+                return await _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.RecordStatus == RecordStatus.Active)
+                    .OrderByDescending(r => r.Id)
+                    .ToListAsync();
+            }
+        }
+        public IQueryable<Role> PaginatedActiveRoles(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.Name.Contains(searchTerm) ||
+                    r.RecordStatus == RecordStatus.Active)
+                    .OrderByDescending(r => r.Id)
+                    .AsQueryable();
+
+                return query;
+            }
+            else
+            {
+                var query = _context.Role
+                    .AsNoTracking()
+                    .Where(r => r.RecordStatus == RecordStatus.Active)
+                    .OrderByDescending(r => r.Id)
+                    .AsQueryable();
+
+                return query;
+            }
+        }
+        public async Task<Role?> GetRoleByID(Guid id)
+        {
+            return await _context.Role
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == id);
+        }
+        public async Task<Role?> PatchRoleByID(Guid id)
+        {
+            return await _context.Role
+                .FirstOrDefaultAsync(r => r.Id == id);
+        }
+    }
 }

@@ -142,5 +142,108 @@ namespace SMS_backend.Controllers
         Task<RoleResponse> CreateRole(string roleName);
         Task<RoleResponse> UpdateRoleByID(string roleName, Guid id);
         Task<RoleResponse> RemoveRoleByID(Guid id);
+        Task<RoleResponse> DeletRoleByID(Guid id);
+    }
+    public class RoleService : RoleInterface
+    {
+        private readonly Db _context;
+        private readonly RoleQueries _queries;
+        private readonly IMapper _mapper;
+        public RoleService(Db context, RoleQueries queries, IMapper mapper)
+        {
+            _context = context;
+            _queries = queries;
+            _mapper = mapper;
+        }
+        // [HttpGet("roles/list")]
+        public async Task<List<RoleResponse>> RolesList(string searchTerm)
+        {
+            var roles = await _queries.RolesList(searchTerm);
+            return _mapper.Map<List<RoleResponse>>(roles);
+        }
+        // [HttpGet("roles/paginated")]
+        public async Task<Pagination<RoleResponse>> PaginatedRoles(
+            int pageNumber,
+            int pageSize,
+            string searchTerm)
+        {
+            var query = _queries.PaginatedRoles(searchTerm);
+
+            return await PaginationHelper.PaginateAndMap<Role, RoleResponse>(query, pageNumber, pageSize, _mapper);
+        }
+        // [HttpGet("roles/active-list")]
+        public async Task<List<RoleResponse>> ActiveRolesList(string searchTerm)
+        {
+            var roles = await _queries.ActiveRolesList(searchTerm);
+            return _mapper.Map<List<RoleResponse>>(roles);
+        }
+        // [HttpGet("roles/active-paginated")]
+        public async Task<Pagination<RoleResponse>> PaginatedActiveRoles(
+            int pageNumber,
+            int pageSize,
+            string searchTerm)
+        {
+            var query = _queries.PaginatedActiveRoles(searchTerm);
+            return await PaginationHelper.PaginateAndMap<Role, RoleResponse>(query, pageNumber, pageSize, _mapper);
+        }
+        // [HttpGet("role/{id}")]
+        public async Task<RoleResponse> GetRoleByID(Guid id)
+        {
+            var role = await _queries.GetRoleByID(id);
+            return _mapper.Map<RoleResponse>(role);
+        }
+        // [HttpPost("role/create")]
+        public async Task<RoleResponse> CreateRole(string roleName)
+        {
+            if (await _context.Role.AnyAsync(r => r.Name == roleName))
+            {
+                throw new ArgumentException("Role Name exist");
+            }
+            else
+            {
+                var role = new Role
+                {
+                    Name = roleName,
+                    RecordStatus = RecordStatus.Active
+                };
+
+                await _context.Role.AddAsync(role);
+                await _context.SaveChangesAsync();
+                return _mapper.Map<RoleResponse>(role);
+            }
+        }
+        // [HttpPatch("role/update/{id}")]
+        public async Task<RoleResponse> UpdateRoleByID(string roleName, Guid id)
+        {
+            var role = await _queries.PatchRoleByID(id);
+
+            role.Name = roleName;
+
+            await _context.SaveChangesAsync();
+            return _mapper.Map<RoleResponse>(role);
+        }
+        // [HttpPatch("role/toggle-status/{id}")]
+        public async Task<RoleResponse> RemoveRoleByID(Guid id)
+        {
+            var role = await _queries.PatchRoleByID(id);
+
+            role.RecordStatus = role.RecordStatus == RecordStatus.Active
+                ? RecordStatus.Inactive
+                : RecordStatus.Active;
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<RoleResponse>(role);
+        }
+        // [HttpDelete("role/delete/{id}")]
+        public async Task<RoleResponse> DeletRoleByID(Guid id)
+        {
+            var role = await _queries.PatchRoleByID(id);
+
+            _context.Role.Remove(role);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<RoleResponse>(role);
+        }
     }
 }
