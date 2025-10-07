@@ -177,11 +177,13 @@ namespace SMS_backend.Controllers
             _queries = queries;
             _mapper = mapper;
         }
+        // [HttpGet("positions/active-list")]
         public async Task<List<PositionResponse>> ActivePositionsList(string searchTerm)
         {
             var positions = await _queries.ActivePositionsList(searchTerm);
             return _mapper.Map<List<PositionResponse>>(positions);
         }
+        // [HttpGet("positions/active-paginated")]
         public async Task<Pagination<PositionResponse>> PaginatedActivePositions(
             int pageNumber,
             int pageSize,
@@ -190,11 +192,13 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedActivePositions(searchTerm);
             return await PaginationHelper.PaginateAndMap<Position, PositionResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("positions/list-with-department")]
         public async Task<List<PositionWithDepartmentResponse>> PositionWithDepartmentList(string searchTerm)
         {
             var positions = await _queries.ActivePositionsList(searchTerm);
             return _mapper.Map<List<PositionWithDepartmentResponse>>(positions);
         }
+        // [HttpGet("positions/paginated-with-departments")]
         public async Task<Pagination<PositionWithDepartmentResponse>> PaginatedPositionsWithDepartment(
             int pageNumber,
             int pageSize,
@@ -203,11 +207,13 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedActivePositions(searchTerm);
             return await PaginationHelper.PaginateAndMap<Position, PositionWithDepartmentResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("positions/list")]
         public async Task<List<PositionResponse>> PositionsList(string searchTerm)
         {
             var positions = await _queries.PositionsList(searchTerm);
             return _mapper.Map<List<PositionResponse>>(positions);
         }
+        // [HttpGet("positions/paginated")]
         public async Task<Pagination<PositionResponse>> PaginatedPositions(
             int pageNumber,
             int pageSize,
@@ -216,11 +222,13 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedPositions(searchTerm);
             return await PaginationHelper.PaginateAndMap<Position, PositionResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("position/{id}")]
         public async Task<PositionResponse> GetPositionByID(int id)
         {
             var position = await _queries.GetPositionByID(id);
             return _mapper.Map<PositionResponse>(position);
         }
+        // [HttpPost("position/create")]
         public async Task<PositionResponse> CreatePosition(CreatePositionRequest request)
         {
             var position = _mapper.Map<Position>(request);
@@ -232,6 +240,7 @@ namespace SMS_backend.Controllers
 
             return _mapper.Map<PositionResponse>(position);
         }
+        // [HttpPatch("position/update/{id}")]
         public async Task<PositionResponse> UpdatePositionByID(UpdatePositionRequest request, int id)
         {
             var position = await _queries.PatchPositionByID(id);
@@ -242,6 +251,7 @@ namespace SMS_backend.Controllers
             await _context.SaveChangesAsync();
             return _mapper.Map<PositionResponse>(position);
         }
+        // [HttpPatch("position/toggle-status/{id}")]
         public async Task<PositionResponse> RemovePositionByID(int id)
         {
             var position = await _queries.PatchPositionByID(id);
@@ -252,6 +262,7 @@ namespace SMS_backend.Controllers
             await _context.SaveChangesAsync();
             return _mapper.Map<PositionResponse>(position);
         }
+        // [HttpDelete("position/delete/{id}")]
         public async Task<PositionResponse> DeletePositionByID(int id)
         {
             var position = await _queries.PatchPositionByID(id);
