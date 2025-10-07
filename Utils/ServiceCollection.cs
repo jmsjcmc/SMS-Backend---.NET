@@ -8,12 +8,16 @@ namespace SMS_backend.Utils
         {
             service.AddScoped<UserService>();
             service.AddScoped<RoleService>();
+            service.AddScoped<DepartmentService>();
+            service.AddScoped<PositionService>();
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
         {
             service.AddScoped<UserQueries>();
             service.AddScoped<RoleQueries>();
+            service.AddScoped<DepartmentQueries>();
+            service.AddScoped<PositionQueries>();
             return service;
         }
     }

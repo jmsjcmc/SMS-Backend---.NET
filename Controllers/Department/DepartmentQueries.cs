@@ -121,6 +121,105 @@ namespace SMS_backend.Controllers
         {
             _context = context;
         }
-
+        public async Task<List<Position>> ActivePositionsList(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.Name.Contains(searchTerm) &&
+                    p.RecordStatus == RecordStatus.Active)
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .ToListAsync();
+            }
+            else
+            {
+                return await _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.RecordStatus == RecordStatus.Active)
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .ToListAsync();
+            }
+        }
+        public IQueryable<Position> PaginatedActivePositions(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.Name.Contains(searchTerm) &&
+                    p.RecordStatus == RecordStatus.Active)
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .AsQueryable();
+                return query;
+            }
+            else
+            {
+                var query = _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.RecordStatus == RecordStatus.Active)
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .AsQueryable();
+                return query;
+            }
+        }
+        public async Task<List<Position>> PositionsList(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.Name.Contains(searchTerm))
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .ToListAsync();
+            } else
+            {
+                return await _context.Position
+                    .AsNoTracking()
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .ToListAsync();
+            }
+        }
+        public IQueryable<Position> PaginatedPositions(string? searchTerm)
+        {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Position
+                    .AsNoTracking()
+                    .Where(p => p.Name.Contains(searchTerm))
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .AsQueryable();
+                return query;
+            }
+            else
+            {
+                var query = _context.Position
+                    .AsNoTracking()
+                    .Include(p => p.Department)
+                    .OrderByDescending(p => p.Id)
+                    .AsQueryable();
+                return query;
+            }
+        }
+        public async Task<Position?> GetPositionByID(int id)
+        {
+            return await _context.Position
+                .AsNoTracking()
+                .Include(p => p.Department)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+        public async Task<Position?> PatchPositionByID(int id)
+        {
+            return await _context.Position
+                .Include(p => p.Department)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }
