@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SMS_backend.Models.Entities;
+using SMS_backend.Utils;
 
 namespace SMS_backend
 {
@@ -14,10 +15,13 @@ namespace SMS_backend
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<Position> Position { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Category> Category { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Db).Assembly);
+            modelBuilder.Seed();
         }
     }
 }
