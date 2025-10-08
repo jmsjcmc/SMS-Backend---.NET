@@ -40,11 +40,13 @@ namespace SMS_backend.Controllers
             _queries = queries;
             _context = context;
         }
+        // [HttpGet("products/list")]
         public async Task<List<ProductResponse>> ProductsList(string searchTerm)
         {
             var products = await _queries.ProductsList(searchTerm);
             return _mapper.Map<List<ProductResponse>>(products);
         }
+        // [HttpGet("products/paginated")]
         public async Task<Pagination<ProductResponse>> PaginatedProducts(
             int pageNumber,
             int pageSize,
@@ -53,11 +55,13 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedProducts(searchTerm);
             return await PaginationHelper.PaginateAndMap<Product, ProductResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("products/active-list")]
         public async Task<List<ProductResponse>> ActiveProductsList(string searchTerm)
         {
             var products = await _queries.ActiveProductsList(searchTerm);
             return _mapper.Map<List<ProductResponse>>(products);
         }
+        // [HttpGet("products/active-paginated")]
         public async Task<Pagination<ProductResponse>> PaginatedActiveProducts(
             int pageNumber,
             int pageSize,
@@ -66,11 +70,13 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedActiveProducts(searchTerm);
             return await PaginationHelper.PaginateAndMap<Product, ProductResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("products/list-with-category")]
         public async Task<List<ProductWithCategoryResponse>> ProductWithCategoryList(string searchTerm)
         {
             var product = await _queries.ActiveProductsList(searchTerm);
             return _mapper.Map<List<ProductWithCategoryResponse>>(product);
         }
+        // [HttpGet("products/paginated-with-category")]
         public async Task<Pagination<ProductWithCategoryResponse>> PaginatedProductWithCategory(
             int pageNumber,
             int pageSize,
@@ -79,18 +85,21 @@ namespace SMS_backend.Controllers
             var query = _queries.PaginatedActiveProducts(searchTerm);
             return await PaginationHelper.PaginateAndMap<Product, ProductWithCategoryResponse>(query, pageNumber, pageSize, _mapper);
         }
+        // [HttpGet("product/{id}")]
         public async Task<ProductResponse> GetProductByID(int id)
         {
             var product = await _queries.GetProductByID(id);
 
             return _mapper.Map<ProductResponse>(product);
         }
+        // [HttpGet("product/with-category/{id}")]
         public async Task<ProductWithCategoryResponse> GetProductWithCategoryByID(int id)
         {
             var product = await _queries.GetProductByID(id);
 
             return _mapper.Map<ProductWithCategoryResponse>(product);
         }
+        // [HttpPost("product/create")]
         public async Task<ProductResponse> CreateProduct(CreateProductRequest request)
         {
             var product = _mapper.Map<Product>(request);
@@ -101,6 +110,7 @@ namespace SMS_backend.Controllers
             await _context.SaveChangesAsync();
             return _mapper.Map<ProductResponse>(product);
         }
+        // [HttpPatch("product/update/{id}")]
         public async Task<ProductResponse> UpdateProductByID(UpdateProductRequest request, int id)
         {
             var product = await _queries.PatchProductByID(id);
@@ -110,6 +120,7 @@ namespace SMS_backend.Controllers
             await _context.SaveChangesAsync();
             return _mapper.Map<ProductResponse>(product);
         }
+        // [HttpPatch("product/toggle-status/{id}")]
         public async Task<ProductResponse> RemoveProductByID(int id)
         {
             var product = await _queries.PatchProductByID(id);
@@ -121,6 +132,7 @@ namespace SMS_backend.Controllers
             await _context.SaveChangesAsync();
             return _mapper.Map<ProductResponse>(product);
         }
+        // [HttpDelete("product/delete/{id}")]
         public async Task<ProductResponse> DeleteProductByID(int id)
         {
             var product = await _queries.PatchProductByID(id);
