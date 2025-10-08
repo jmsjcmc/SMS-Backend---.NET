@@ -142,5 +142,21 @@ namespace SMS_backend.Controllers
 
             return _mapper.Map<ProductResponse>(product);
         }
+        public interface CategoryInterface
+        {
+
+        }
+        public class CategoryService : CategoryInterface
+        {
+            private readonly IMapper _mapper;
+            private readonly Db _context;
+            private readonly CategoryQueries _queries;
+            public CategoryService(IMapper mapper, Db context, CategoryQueries queries)
+            {
+                _mapper = mapper;
+                _context = context;
+                _queries = queries;
+            }
+        }
     }
 }

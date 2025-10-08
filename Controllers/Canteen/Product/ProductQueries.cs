@@ -123,4 +123,41 @@ namespace SMS_backend.Controllers
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
+    public class CategoryQueries
+    {
+        private readonly Db _context;
+        public CategoryQueries(Db context)
+        {
+            _context = context;
+        }
+        public async Task<Category> CategoriesList(string? searchTerm)
+        {
+
+        }
+        public IQueryable<Category> PaginatedCategories(string? searchTerm)
+        {
+
+        }
+        public async Task<Category> ActiveCategoriesList(string? searchTerm)
+        {
+
+        }
+        public IQueryable<Category> PaginatedActiveCategories(string? searchTerm)
+        {
+
+        }
+        public async Task<Category?> GetCategoryByID(int id)
+        {
+            return await _context.Category
+                .AsNoTracking()
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+        public async Task<Category?> PatchCategoryByID(int id)
+        {
+            return await _context.Category
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+    }
 }

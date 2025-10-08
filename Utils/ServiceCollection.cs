@@ -10,6 +10,7 @@ namespace SMS_backend.Utils
             service.AddScoped<RoleService>();
             service.AddScoped<DepartmentService>();
             service.AddScoped<PositionService>();
+            service.AddScoped<ProductService>();
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
