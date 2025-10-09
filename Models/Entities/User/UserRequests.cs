@@ -6,6 +6,8 @@
         public string LastName { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public int PositionId { get; set; } = 0;
+        public List<int> RoleId { get; set; } = new List<int>();
     }
     public class UpdateUserRequest
     {
@@ -13,5 +15,7 @@
         public string LastName { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public int PositionId { get; set; } = 0;
+        public List<int> RoleId { get; set; } = new List<int>();
     }
 }

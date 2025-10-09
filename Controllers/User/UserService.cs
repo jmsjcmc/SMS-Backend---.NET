@@ -8,21 +8,21 @@ namespace SMS_backend.Controllers
 {
     public interface UserInterface
     {
-        Task<List<UserResponse>> UsersList(string searchTerm);
-        Task<Pagination<UserResponse>> PaginatedUsers(
+        Task<List<UserWithPositionAndRoleResponse>> UsersList(string? searchTerm);
+        Task<Pagination<UserWithPositionAndRoleResponse>> PaginatedUsers(
             int pageNumber,
             int pageSize,
             string searchTerm);
-        Task<List<UserResponse>> ActiveUsersList(string searchTerm);
-        Task<Pagination<UserResponse>> PaginatedActiveUsers(
+        Task<List<UserWithPositionAndRoleResponse>> ActiveUsersList(string? searchTerm);
+        Task<Pagination<UserWithPositionAndRoleResponse>> PaginatedActiveUsers(
             int pageNumber,
             int pageSize,
             string searchTerm);
-        Task<UserResponse> GetUserByID(int id);
-        Task<UserResponse> CreateUser(CreateUserRequest request);
-        Task<UserResponse> UpdateUserByID(UpdateUserRequest request, int id);
-        Task<UserResponse> RemoveUserByID(int id);
-        Task<UserResponse> DeleteUserByID(int id);
+        Task<UserWithPositionAndRoleResponse> GetUserByID(int id);
+        Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request);
+        Task<UserWithPositionAndRoleResponse> UpdateUserByID(UpdateUserRequest request, int id);
+        Task<UserWithPositionAndRoleResponse> RemoveUserByID(int id);
+        Task<UserWithPositionAndRoleResponse> DeleteUserByID(int id);
     }
     public class UserService : UserInterface
     {
@@ -36,43 +36,43 @@ namespace SMS_backend.Controllers
             _queries = queries;
         }
         // [HttpGet("users/active-list")]
-        public async Task<List<UserResponse>> ActiveUsersList(string searchTerm)
+        public async Task<List<UserWithPositionAndRoleResponse>> ActiveUsersList(string? searchTerm)
         {
             var users = await _queries.ActiveUsersList(searchTerm);
-            return _mapper.Map<List<UserResponse>>(users);
+            return _mapper.Map<List<UserWithPositionAndRoleResponse>>(users);
         }
         // [HttpGet("users/active-paginated")]
-        public async Task<Pagination<UserResponse>> PaginatedActiveUsers(
+        public async Task<Pagination<UserWithPositionAndRoleResponse>> PaginatedActiveUsers(
             int pageNumber,
             int pageSize,
             string searchTerm)
         {
             var query = _queries.PaginatedActiveUsers(searchTerm);
-            return await PaginationHelper.PaginateAndMap<User, UserResponse>(query, pageNumber, pageSize, _mapper);
+            return await PaginationHelper.PaginateAndMap<User, UserWithPositionAndRoleResponse>(query, pageNumber, pageSize, _mapper);
         }
         // [HttpGet("users/list")]
-        public async Task<List<UserResponse>> UsersList(string searchTerm)
+        public async Task<List<UserWithPositionAndRoleResponse>> UsersList(string? searchTerm)
         {
             var users = await _queries.UsersList(searchTerm);
-            return _mapper.Map<List<UserResponse>>(users);
+            return _mapper.Map<List<UserWithPositionAndRoleResponse>>(users);
         }
         // [HttpGet("users/paginated")]
-        public async Task<Pagination<UserResponse>> PaginatedUsers(
+        public async Task<Pagination<UserWithPositionAndRoleResponse>> PaginatedUsers(
             int pageNumber,
             int pageSize,
             string searchTerm)
         {
             var query = _queries.PaginatedUsers(searchTerm);
-            return await PaginationHelper.PaginateAndMap<User, UserResponse>(query, pageNumber, pageSize, _mapper);
+            return await PaginationHelper.PaginateAndMap<User, UserWithPositionAndRoleResponse>(query, pageNumber, pageSize, _mapper);
         }
         // [HttpGet("user/{id}")]
-        public async Task<UserResponse> GetUserByID(int id)
+        public async Task<UserWithPositionAndRoleResponse> GetUserByID(int id)
         {
             var user = await _queries.GetUserByID(id);
-            return _mapper.Map<UserResponse>(user);
+            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
         // [HttpPost("user/create")]
-        public async Task<UserResponse> CreateUser(CreateUserRequest request)
+        public async Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request)
         {
             if (await _context.User.AnyAsync(u => u.Username == request.Username))
             {
@@ -80,6 +80,19 @@ namespace SMS_backend.Controllers
             }
             else
             {
+                var positionExist = await _context.Position.AnyAsync(p => p.Id == request.PositionId);
+
+                if (!positionExist)
+                    throw new Exception("Position ID did not exist");
+
+                var roleExist = await _context.Role
+                    .Where(r => request.RoleId.Contains(r.Id))
+                    .Select(r => r.Id)
+                    .ToListAsync();
+
+                if (roleExist.Count != request.RoleId.Count)
+                    throw new Exception("One or more Role IDs are not available");
+
                 var user = _mapper.Map<User>(request);
                 user.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 user.DateCreated = DateTimeHelper.GetPhilippineStandardTime();
@@ -88,11 +101,11 @@ namespace SMS_backend.Controllers
                 await _context.User.AddAsync(user);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<UserResponse>(user);
+                return _mapper.Map<UserWithPositionAndRoleResponse>(user);
             }
         }
         // [HttpPatch("user/update/{id}")]
-        public async Task<UserResponse> UpdateUserByID(UpdateUserRequest request, int id)
+        public async Task<UserWithPositionAndRoleResponse> UpdateUserByID(UpdateUserRequest request, int id)
         {
             var user = await _queries.PatchUserByID(id);
 
@@ -101,10 +114,10 @@ namespace SMS_backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UserResponse>(user);
+            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
         // [HttpPatch("user/toggle-status/{id}")]
-        public async Task<UserResponse> RemoveUserByID(int id)
+        public async Task<UserWithPositionAndRoleResponse> RemoveUserByID(int id)
         {
             var user = await _queries.PatchUserByID(id);
 
@@ -114,16 +127,16 @@ namespace SMS_backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UserResponse>(user);
+            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
         // [HttpDelete("user/delete/{id}")]
-        public async Task<UserResponse> DeleteUserByID(int id)
+        public async Task<UserWithPositionAndRoleResponse> DeleteUserByID(int id)
         {
             var user = await _queries.PatchUserByID(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<UserResponse>(user);
+            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
     }
     public interface RoleInterface

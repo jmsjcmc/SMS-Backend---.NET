@@ -30,6 +30,7 @@ namespace SMS_backend.Models.Entities
         public Department Department { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; } = null;
+        public ICollection<User> User { get; set; }
     }
     public class PositionMapper : Profile
     {

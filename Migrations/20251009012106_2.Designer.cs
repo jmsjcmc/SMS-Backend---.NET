@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMS_backend;
 
@@ -11,9 +12,11 @@ using SMS_backend;
 namespace SMS_backend.Migrations
 {
     [DbContext(typeof(Db))]
-    partial class DbModelSnapshot : ModelSnapshot
+    [Migration("20251009012106_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -400,6 +403,7 @@ namespace SMS_backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -466,9 +470,6 @@ namespace SMS_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RecordStatus")
                         .HasColumnType("int");
 
@@ -477,8 +478,6 @@ namespace SMS_backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PositionId");
 
                     b.ToTable("User");
                 });
@@ -526,17 +525,6 @@ namespace SMS_backend.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SMS_backend.Models.Entities.User", b =>
-                {
-                    b.HasOne("SMS_backend.Models.Entities.Position", "Position")
-                        .WithMany("User")
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Position");
-                });
-
             modelBuilder.Entity("SMS_backend.Models.Entities.UserRole", b =>
                 {
                     b.HasOne("SMS_backend.Models.Entities.Role", "Role")
@@ -564,11 +552,6 @@ namespace SMS_backend.Migrations
             modelBuilder.Entity("SMS_backend.Models.Entities.Department", b =>
                 {
                     b.Navigation("Position");
-                });
-
-            modelBuilder.Entity("SMS_backend.Models.Entities.Position", b =>
-                {
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SMS_backend.Models.Entities.Role", b =>

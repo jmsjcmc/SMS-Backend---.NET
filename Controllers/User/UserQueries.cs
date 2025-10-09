@@ -21,6 +21,9 @@ namespace SMS_backend.Controllers
                     u.Username.Contains(searchTerm) ||
                     u.FirstName.Contains(searchTerm) ||
                     u.LastName.Contains(searchTerm))
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .ToListAsync();
             }
@@ -29,6 +32,9 @@ namespace SMS_backend.Controllers
                 return await _context.User
                     .AsNoTracking()
                     .Where(u => u.RecordStatus == RecordStatus.Active)
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .ToListAsync();
             }
@@ -43,6 +49,9 @@ namespace SMS_backend.Controllers
                     u.Username.Contains(searchTerm) ||
                     u.FirstName.Contains(searchTerm) ||
                     u.LastName.Contains(searchTerm))
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .AsQueryable();
 
@@ -53,6 +62,9 @@ namespace SMS_backend.Controllers
                 var query = _context.User
                     .AsNoTracking()
                     .Where(u => u.RecordStatus == RecordStatus.Active)
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .AsQueryable();
 
@@ -68,6 +80,9 @@ namespace SMS_backend.Controllers
                     .Where(u => u.Username.Contains(searchTerm) ||
                     u.FirstName.Contains(searchTerm) ||
                     u.LastName.Contains(searchTerm))
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .ToListAsync();
             }
@@ -75,6 +90,9 @@ namespace SMS_backend.Controllers
             {
                 return await _context.User
                     .AsNoTracking()
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .ToListAsync();
             }
@@ -88,6 +106,9 @@ namespace SMS_backend.Controllers
                     .Where(u => u.Username.Contains(searchTerm) ||
                     u.FirstName.Contains(searchTerm) ||
                     u.LastName.Contains(searchTerm))
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .AsQueryable();
 
@@ -97,6 +118,9 @@ namespace SMS_backend.Controllers
             {
                 var query = _context.User
                     .AsNoTracking()
+                    .Include(u => u.Position)
+                    .Include(u => u.UserRole)
+                    .ThenInclude(ur => ur.Role)
                     .OrderByDescending(u => u.Id)
                     .AsQueryable();
 
@@ -107,11 +131,17 @@ namespace SMS_backend.Controllers
         {
             return await _context.User
                 .AsNoTracking()
+                .Include(u => u.Position)
+                .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
         public async Task<User?> PatchUserByID(int id)
         {
             return await _context.User
+                .Include(u => u.Position)
+                .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
     }

@@ -15,37 +15,37 @@ namespace SMS_backend.Controllers
             _userService = userService;
         }
         [HttpPost("user/create")]
-        public async Task<ActionResult<UserResponse>> CreateUser([FromBody] CreateUserRequest request)
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> CreateUser([FromBody] CreateUserRequest request)
         {
             var response = await _userService.CreateUser(request);
             return response;
         }
         [HttpPatch("user/update/{id}")]
-        public async Task<ActionResult<UserResponse>> UpdateUserByID([FromBody] UpdateUserRequest request, int id)
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> UpdateUserByID([FromBody] UpdateUserRequest request, int id)
         {
             var response = await _userService.UpdateUserByID(request, id);
             return response;
         }
         [HttpPatch("user/toggle-status/{id}")]
-        public async Task<ActionResult<UserResponse>> RemoveUserByID(int id)
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> RemoveUserByID(int id)
         {
             var response = await _userService.RemoveUserByID(id);
             return response;
         }
         [HttpDelete("user/delete/{id}")]
-        public async Task<ActionResult<UserResponse>> DeleteUserByID(int id)
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> DeleteUserByID(int id)
         {
             var response = await _userService.DeleteUserByID(id);
             return response;
         }
         [HttpGet("users/active-list")]
-        public async Task<ActionResult<List<UserResponse>>> ActiveUsersList(string searchTerm)
+        public async Task<ActionResult<List<UserWithPositionAndRoleResponse>>> ActiveUsersList(string? searchTerm)
         {
             var response = await _userService.ActiveUsersList(searchTerm);
             return response;
         }
         [HttpGet("users/active-paginated")]
-        public async Task<ActionResult<Pagination<UserResponse>>> PaginatedActiveUsers(
+        public async Task<ActionResult<Pagination<UserWithPositionAndRoleResponse>>> PaginatedActiveUsers(
             int pageNumber = 1,
             int pageSize = 10,
             string? searchTerm = null)
@@ -54,19 +54,19 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpGet("users/list")]
-        public async Task<ActionResult<List<UserResponse>>> UsersList(string searchTerm)
+        public async Task<ActionResult<List<UserWithPositionAndRoleResponse>>> UsersList(string? searchTerm)
         {
             var response = await _userService.UsersList(searchTerm);
             return response;
         }
         [HttpGet("users/paginated")]
-        public async Task<ActionResult<Pagination<UserResponse>>> PaginatedUsers(int pageNumber = 1, int pageSize = 10, string? searchTerm = null)
+        public async Task<ActionResult<Pagination<UserWithPositionAndRoleResponse>>> PaginatedUsers(int pageNumber = 1, int pageSize = 10, string? searchTerm = null)
         {
             var response = await _userService.PaginatedUsers(pageNumber, pageSize, searchTerm);
             return response;
         }
         [HttpGet("user/{id}")]
-        public async Task<ActionResult<UserResponse>> GetUserByID(int id)
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> GetUserByID(int id)
         {
             var response = await _userService.GetUserByID(id);
             return response;

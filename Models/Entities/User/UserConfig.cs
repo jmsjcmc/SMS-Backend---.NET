@@ -19,4 +19,14 @@ namespace SMS_backend.Models.Entities
                 .HasForeignKey(ur => ur.RoleId);
         }
     }
+    public class UserConfig : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder
+                .HasOne(u => u.Position)
+                .WithMany(p => p.User)
+                .HasForeignKey(u => u.PositionId);
+        }
+    }
 }
