@@ -130,34 +130,110 @@ namespace SMS_backend.Controllers
         {
             _context = context;
         }
-        public async Task<Category> CategoriesList(string? searchTerm)
+        public async Task<List<Category>> CategoriesList(string? searchTerm)
         {
-
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Category
+                   .AsNoTracking()
+                   .Where(c => c.Name.Contains(searchTerm))
+                   .Include(c => c.Product)
+                   .OrderByDescending(c => c.Id)
+                   .ToListAsync();
+            }
+            else
+            {
+                return await _context.Category
+                    .AsNoTracking()
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .ToListAsync();
+            }
         }
         public IQueryable<Category> PaginatedCategories(string? searchTerm)
         {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Category
+                    .AsNoTracking()
+                    .Where(c => c.Name.Contains(searchTerm))
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .AsQueryable();
 
+                return query;
+            }
+            else
+            {
+                var query = _context.Category
+                    .AsNoTracking()
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .AsQueryable();
+
+                return query;
+            }
         }
-        public async Task<Category> ActiveCategoriesList(string? searchTerm)
+        public async Task<List<Category>> ActiveCategoriesList(string? searchTerm)
         {
-
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await _context.Category
+                   .AsNoTracking()
+                   .Where(c => c.RecordStatus == RecordStatus.Active &&
+                   c.Name.Contains(searchTerm))
+                   .Include(c => c.Product)
+                   .OrderByDescending(c => c.Id)
+                   .ToListAsync();
+            }
+            else
+            {
+                return await _context.Category
+                    .AsNoTracking()
+                    .Where(c => c.RecordStatus == RecordStatus.Active)
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .ToListAsync();
+            }
         }
         public IQueryable<Category> PaginatedActiveCategories(string? searchTerm)
         {
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var query = _context.Category
+                    .AsNoTracking()
+                    .Where(c => c.RecordStatus == RecordStatus.Active &&
+                    c.Name.Contains(searchTerm))
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .AsQueryable();
 
+                return query;
+            }
+            else
+            {
+                var query = _context.Category
+                    .AsNoTracking()
+                    .Where(c => c.RecordStatus == RecordStatus.Active)
+                    .Include(c => c.Product)
+                    .OrderByDescending(c => c.Id)
+                    .AsQueryable();
+
+                return query;
+            }
         }
         public async Task<Category?> GetCategoryByID(int id)
         {
             return await _context.Category
                 .AsNoTracking()
-                .Include(p => p.Product)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(c => c.Product)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task<Category?> PatchCategoryByID(int id)
         {
             return await _context.Category
-                .Include(p => p.Product)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(c => c.Product)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
     }
 }

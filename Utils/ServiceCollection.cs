@@ -11,6 +11,7 @@ namespace SMS_backend.Utils
             service.AddScoped<DepartmentService>();
             service.AddScoped<PositionService>();
             service.AddScoped<ProductService>();
+            service.AddScoped<CategoryService>();
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
@@ -19,6 +20,8 @@ namespace SMS_backend.Utils
             service.AddScoped<RoleQueries>();
             service.AddScoped<DepartmentQueries>();
             service.AddScoped<PositionQueries>();
+            service.AddScoped<ProductQueries>();
+            service.AddScoped<CategoryQueries>();
             return service;
         }
     }
