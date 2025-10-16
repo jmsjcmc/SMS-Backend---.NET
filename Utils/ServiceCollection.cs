@@ -24,5 +24,22 @@ namespace SMS_backend.Utils
             service.AddScoped<CategoryQueries>();
             return service;
         }
+        public static IServiceCollection AddCORS(this IServiceCollection service)
+        {
+            service.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder
+                            .WithOrigins("http://localhost:4200")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
+                    });
+            });
+            return service;
+        }
     }
 }

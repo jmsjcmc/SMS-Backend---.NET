@@ -13,6 +13,7 @@ builder.Services.AddDbContext<Db>(options =>
 builder.Services.AddControllers();
 builder.Services.AddServices();
 builder.Services.AddQueries();
+builder.Services.AddCORS();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -28,7 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
 
 app.MapControllers();

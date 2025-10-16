@@ -18,6 +18,8 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
+        Task<int> AllUsersCount();
+        Task<int> ActiveUsersCount();
         Task<UserWithPositionAndRoleResponse> GetUserByID(int id);
         Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request);
         Task<UserWithPositionAndRoleResponse> UpdateUserByID(UpdateUserRequest request, int id);
@@ -64,6 +66,21 @@ namespace SMS_backend.Controllers
         {
             var query = _queries.PaginatedUsers(searchTerm);
             return await PaginationHelper.PaginateAndMap<User, UserWithPositionAndRoleResponse>(query, pageNumber, pageSize, _mapper);
+        }
+        // [HttpGet("users/count")] - All
+        public async Task<int> AllUsersCount()
+        {
+            return await _context.User
+                .AsNoTracking()
+                .CountAsync();
+        }
+        // [HttpGet("users/count")] - Active
+        public async Task<int> ActiveUsersCount()
+        {
+            return await _context.User
+                .AsNoTracking()
+                .Where(u => u.RecordStatus == RecordStatus.Active)
+                .CountAsync();
         }
         // [HttpGet("user/{id}")]
         public async Task<UserWithPositionAndRoleResponse> GetUserByID(int id)

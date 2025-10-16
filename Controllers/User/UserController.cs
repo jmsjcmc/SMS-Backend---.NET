@@ -65,6 +65,16 @@ namespace SMS_backend.Controllers
             var response = await _userService.PaginatedUsers(pageNumber, pageSize, searchTerm);
             return response;
         }
+        [HttpGet("users/count")]
+        public async Task<ActionResult<UsersCount>> UsersCount()
+        {
+            var count = new UsersCount
+            {
+                Total = await _userService.AllUsersCount(),
+                Active = await _userService.ActiveUsersCount()
+            };
+            return count;
+        }
         [HttpGet("user/{id}")]
         public async Task<ActionResult<UserWithPositionAndRoleResponse>> GetUserByID(int id)
         {

@@ -30,4 +30,9 @@
         public string Name { get; set; }
         public RecordStatus RecordStatus { get; set; }
     }
+    public class UsersCount
+    {
+        public int Total { get; set; }
+        public int Active { get; set; }
+    }
 }
