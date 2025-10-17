@@ -11,6 +11,8 @@ builder.Services.AddDbContext<Db>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
 });
 builder.Services.AddControllers();
+builder.Services.AddSwaggerDocumentation();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddHelper();
 builder.Services.AddServices();
 builder.Services.AddQueries();
