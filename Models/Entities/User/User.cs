@@ -36,6 +36,10 @@ namespace SMS_backend.Models.Entities
             CreateMap<User, UserWithPositionAndRoleResponse>()
                 .ForMember(d => d.Position, o => o.MapFrom(s => s.Position))
                 .ForMember(d => d.Role, o => o.MapFrom(s => s.UserRole.Select(ur => ur.Role)));
+
+            CreateMap<User, UserWithPositionAndRoleWithoutPasswordResponse>()
+                .ForMember(d => d.Position, o => o.MapFrom(s => s.Position))
+                .ForMember(d => d.Role, o => o.MapFrom(s => s.UserRole.Select(ur => ur.Role)));
         }
     }
     public class Role

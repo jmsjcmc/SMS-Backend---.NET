@@ -22,7 +22,7 @@ namespace SMS_backend.Controllers
         Task<int> AllUsersCount();
         Task<int> ActiveUsersCount();
         Task<UserWithPositionAndRoleResponse> GetUserByID(int id);
-        Task<UserWithPositionAndRoleResponse> GetAuthenticatedUserDetail(ClaimsPrincipal user);
+        Task<UserWithPositionAndRoleWithoutPasswordResponse> GetAuthenticatedUserDetail(ClaimsPrincipal user);
         Task<UserLoginResponse> UserLogin(UserLoginRequest request);
         Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request);
         Task<UserWithPositionAndRoleResponse> UpdateUserByID(UpdateUserRequest request, int id);
@@ -93,6 +93,18 @@ namespace SMS_backend.Controllers
             var user = await _queries.GetUserByID(id);
             return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
+        // [HttpGet("user/me")]
+        public async Task<UserWithPositionAndRoleWithoutPasswordResponse> GetAuthenticatedUserDetail(ClaimsPrincipal userDetail)
+        {
+            var userIdClaim = userDetail.FindFirst(ClaimTypes.NameIdentifier)
+                ?? throw new UnauthorizedAccessException("User ID claim not found");
+
+            if (!int.TryParse(userIdClaim.Value, out var userId))
+                throw new UnauthorizedAccessException("Invalid user ID claim.");
+
+            var user = await _queries.GetUserByID(userId);
+            return _mapper.Map<UserWithPositionAndRoleWithoutPasswordResponse>(user);
+        }
         // [HttpPost("user/log-in")]
         public async Task<UserLoginResponse> UserLogin(UserLoginRequest request)
         {
@@ -114,18 +126,6 @@ namespace SMS_backend.Controllers
                     AccessToken = token,
                 };
             }
-        }
-        // 
-        public async Task<UserWithPositionAndRoleResponse> GetAuthenticatedUserDetail(ClaimsPrincipal userDetail)
-        {
-            var userIdClaim = userDetail.FindFirst(ClaimTypes.NameIdentifier)
-                ?? throw new UnauthorizedAccessException("User ID claim not found");
-
-            if (!int.TryParse(userIdClaim.Value, out var userId))
-                throw new UnauthorizedAccessException("Invalid user ID claim.");
-
-            var user = await _queries.GetUserByID(userId);
-            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
         // [HttpPost("user/create")]
         public async Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request)

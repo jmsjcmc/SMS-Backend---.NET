@@ -46,9 +46,9 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpGet("user/me")]
-        public async Task<ActionResult<UserWithPositionAndRoleResponse>> GetAuthenticatedUserDetail(ClaimsPrincipal request)
+        public async Task<ActionResult<UserWithPositionAndRoleWithoutPasswordResponse>> GetAuthenticatedUserDetail()
         {
-            var response = await _userService.GetAuthenticatedUserDetail(request);
+            var response = await _userService.GetAuthenticatedUserDetail(User);
             return response;
         }
         [HttpGet("users/active-list")]

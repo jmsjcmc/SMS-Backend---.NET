@@ -11,6 +11,18 @@
         public DateTime? DateUpdated { get; set; }
         public RecordStatus RecordStatus { get; set; }
     }
+    public class UserWithPositionAndRoleWithoutPasswordResponse
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
+        public RecordStatus RecordStatus { get; set; }
+        public PositionResponse Position { get; set; } // Position
+        public List<RoleResponse> Role { get; set; } // Role
+    }
     public class UserWithPositionAndRoleResponse
     {
         public int Id { get; set; }
