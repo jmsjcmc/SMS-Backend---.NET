@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SMS_backend.Models;
 using SMS_backend.Models.Entities;
 using SMS_backend.Utils;
+using System.Security.Claims;
 
 namespace SMS_backend.Controllers
 {
@@ -21,6 +22,8 @@ namespace SMS_backend.Controllers
         Task<int> AllUsersCount();
         Task<int> ActiveUsersCount();
         Task<UserWithPositionAndRoleResponse> GetUserByID(int id);
+        Task<UserWithPositionAndRoleResponse> GetAuthenticatedUserDetail(ClaimsPrincipal user);
+        Task<UserLoginResponse> UserLogin(UserLoginRequest request);
         Task<UserWithPositionAndRoleResponse> CreateUser(CreateUserRequest request);
         Task<UserWithPositionAndRoleResponse> UpdateUserByID(UpdateUserRequest request, int id);
         Task<UserWithPositionAndRoleResponse> RemoveUserByID(int id);
@@ -31,11 +34,13 @@ namespace SMS_backend.Controllers
         private readonly IMapper _mapper;
         private readonly Db _context;
         private readonly UserQueries _queries;
-        public UserService(IMapper mapper, Db context, UserQueries queries)
+        private readonly AuthUserHelper _helper;
+        public UserService(IMapper mapper, Db context, UserQueries queries, AuthUserHelper helper)
         {
             _mapper = mapper;
             _context = context;
             _queries = queries;
+            _helper = helper;
         }
         // [HttpGet("users/active-list")]
         public async Task<List<UserWithPositionAndRoleResponse>> ActiveUsersList(string? searchTerm)
@@ -86,6 +91,40 @@ namespace SMS_backend.Controllers
         public async Task<UserWithPositionAndRoleResponse> GetUserByID(int id)
         {
             var user = await _queries.GetUserByID(id);
+            return _mapper.Map<UserWithPositionAndRoleResponse>(user);
+        }
+        // [HttpPost("user/log-in")]
+        public async Task<UserLoginResponse> UserLogin(UserLoginRequest request)
+        {
+            var user = await _context.User
+                .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Username == request.Username);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+            {
+                throw new UnauthorizedAccessException("Invalid username or password");
+            }
+            else
+            {
+                var token = _helper.GenerateAccessToken(user);
+                await _context.SaveChangesAsync();
+                return new UserLoginResponse
+                {
+                    AccessToken = token,
+                };
+            }
+        }
+        // 
+        public async Task<UserWithPositionAndRoleResponse> GetAuthenticatedUserDetail(ClaimsPrincipal userDetail)
+        {
+            var userIdClaim = userDetail.FindFirst(ClaimTypes.NameIdentifier)
+                ?? throw new UnauthorizedAccessException("User ID claim not found");
+
+            if (!int.TryParse(userIdClaim.Value, out var userId))
+                throw new UnauthorizedAccessException("Invalid user ID claim.");
+
+            var user = await _queries.GetUserByID(userId);
             return _mapper.Map<UserWithPositionAndRoleResponse>(user);
         }
         // [HttpPost("user/create")]

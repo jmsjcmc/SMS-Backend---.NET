@@ -4,6 +4,11 @@ namespace SMS_backend.Utils
 {
     public static class ServiceCollection
     {
+        public static IServiceCollection AddHelper(this IServiceCollection service)
+        {
+            service.AddScoped<AuthUserHelper>();
+            return service;
+        }
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
             service.AddScoped<UserService>();

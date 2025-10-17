@@ -11,6 +11,7 @@ builder.Services.AddDbContext<Db>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
 });
 builder.Services.AddControllers();
+builder.Services.AddHelper();
 builder.Services.AddServices();
 builder.Services.AddQueries();
 builder.Services.AddCORS();
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigin");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SMS_backend.Models.Entities;
 using SMS_backend.Utils;
+using System.Security.Claims;
 
 namespace SMS_backend.Controllers
 {
@@ -13,6 +14,12 @@ namespace SMS_backend.Controllers
         public UserController(UserService userService)
         {
             _userService = userService;
+        }
+        [HttpPost("user/log-in")]
+        public async Task<ActionResult<UserLoginResponse>> UserLogin(UserLoginRequest request)
+        {
+            var response = await _userService.UserLogin(request);
+            return response;
         }
         [HttpPost("user/create")]
         public async Task<ActionResult<UserWithPositionAndRoleResponse>> CreateUser([FromBody] CreateUserRequest request)
@@ -36,6 +43,12 @@ namespace SMS_backend.Controllers
         public async Task<ActionResult<UserWithPositionAndRoleResponse>> DeleteUserByID(int id)
         {
             var response = await _userService.DeleteUserByID(id);
+            return response;
+        }
+        [HttpGet("user/me")]
+        public async Task<ActionResult<UserWithPositionAndRoleResponse>> GetAuthenticatedUserDetail(ClaimsPrincipal request)
+        {
+            var response = await _userService.GetAuthenticatedUserDetail(request);
             return response;
         }
         [HttpGet("users/active-list")]

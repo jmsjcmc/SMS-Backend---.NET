@@ -42,9 +42,18 @@ namespace SMS_backend.Utils
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                //new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Name, user.Username)
             };
+            if (user.UserRole != null && user.UserRole.Any())
+            {
+                foreach (var userRole in user.UserRole)
+                {
+                    if (userRole.Role != null)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, userRole.Role.Name));
+                    }
+                }
+            }
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

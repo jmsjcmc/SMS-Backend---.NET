@@ -35,4 +35,8 @@
         public int Total { get; set; }
         public int Active { get; set; }
     }
+    public class UserLoginResponse
+    {
+        public string AccessToken { get; set; } 
+    }
 }
