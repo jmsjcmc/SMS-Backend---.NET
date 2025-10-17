@@ -207,6 +207,8 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
+        Task<int> AllRolesCount();
+        Task<int> AllActiveRolesCount();
         Task<RoleResponse> GetRoleByID(int id);
         Task<RoleResponse> CreateRole(string roleName);
         Task<RoleResponse> UpdateRoleByID(string roleName, int id);
@@ -260,6 +262,21 @@ namespace SMS_backend.Controllers
         {
             var role = await _queries.GetRoleByID(id);
             return _mapper.Map<RoleResponse>(role);
+        }
+        // [HttpGet("roles/count")] - Active
+        public async Task<int> AllRolesCount()
+        {
+            return await _context.Role
+                .AsNoTracking()
+                .CountAsync();
+        }
+        // [HttpGet("roles/count")] - Active
+        public async Task<int> AllActiveRolesCount()
+        {
+            return await _context.Role
+                .AsNoTracking()
+                .Where(r => r.RecordStatus == RecordStatus.Active)
+                .CountAsync();
         }
         // [HttpPost("role/create")]
         public async Task<RoleResponse> CreateRole(string roleName)

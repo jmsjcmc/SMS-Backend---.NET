@@ -156,6 +156,16 @@ namespace SMS_backend.Controllers
             var response = await _roleService.PaginatedRoles(pageNumber, pageSize, searchTerm);
             return response;
         }
+        [HttpGet("roles/count")]
+        public async Task<ActionResult<RolesCount>> RolesCount()
+        {
+            var count = new RolesCount
+            {
+                Total = await _roleService.AllRolesCount(),
+                Active = await _roleService.AllActiveRolesCount()
+            };
+            return count;
+        }
         [HttpGet("role/{id}")]
         public async Task<ActionResult<RoleResponse>> GetUserByID(int id)
         {
