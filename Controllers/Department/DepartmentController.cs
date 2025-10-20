@@ -89,6 +89,16 @@ namespace SMS_backend.Controllers
             var response = await _departmentService.GetDepartmentByID(id);
             return response;
         }
+        [HttpGet("departments/count")]
+        public async Task<ActionResult<DepartmentsCount>> DepartmentsCount()
+        {
+            var count = new DepartmentsCount
+            {
+                Total = await _departmentService.AllDepartmentsCount(),
+                Active = await _departmentService.ActiveDepartmentsCount()
+            };
+            return count;
+        }
         [HttpGet("department/with-positions/{id}")]
         public async Task<ActionResult<DepartmentWithPositionResponse>> GetDepartmentWithPositionsByID(int id)
         {
@@ -171,6 +181,16 @@ namespace SMS_backend.Controllers
         {
             var response = await _positionService.PaginatedPositions(pageNumber, pageSize, searchTerm);
             return response;
+        }
+        [HttpGet("positions/count")]
+        public async Task<ActionResult<PositionsCount>> PositionsCount()
+        {
+            var count = new PositionsCount
+            {
+                Total = await _positionService.AllPositionsCount(),
+                Active = await _positionService.ActivePositionsCount()
+            };
+            return count;
         }
         [HttpGet("position/{id}")]
         public async Task<ActionResult<PositionResponse>> GetPositionByID(int id)

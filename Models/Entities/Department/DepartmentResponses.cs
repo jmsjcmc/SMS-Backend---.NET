@@ -34,4 +34,14 @@
         public DateTime? DateUpdated { get; set; }
         public List<PositionResponse> Position { get; set; } // Position
     }
+    public class DepartmentsCount
+    {
+        public int Total { get; set; }
+        public int Active { get; set; }
+    }
+    public class PositionsCount
+    {
+        public int Total { get; set; }
+        public int Active { get; set; }
+    }
 }

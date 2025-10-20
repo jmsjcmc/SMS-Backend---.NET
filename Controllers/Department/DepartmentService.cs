@@ -23,6 +23,8 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
+        Task<int> AllDepartmentsCount();
+        Task<int> ActiveDepartmentsCount();
         Task<DepartmentResponse> GetDepartmentByID(int id);
         Task<DepartmentWithPositionResponse> GetDepartmentWithPositionsByID(int id);
         Task<DepartmentResponse> CreateDepartment(string departmentName);
@@ -85,6 +87,21 @@ namespace SMS_backend.Controllers
         {
             var query = _queries.PaginatedDepartments(searchTerm);
             return await PaginationHelper.PaginateAndMap<Department, DepartmentResponse>(query, pageNumber, pageSize, _mapper);
+        }
+        // [HttpGet("departments/count")] - Total
+        public async Task<int> AllDepartmentsCount()
+        {
+            return await _context.Department
+                .AsNoTracking()
+                .CountAsync();
+        }
+        // [HttpGet("departments/count")] - Active
+        public async Task<int> ActiveDepartmentsCount()
+        {
+            return await _context.Department
+                .AsNoTracking()
+                .Where(d => d.RecordStatus == RecordStatus.Active)
+                .CountAsync();
         }
         // [HttpGet("department/{id}")]
         public async Task<DepartmentResponse> GetDepartmentByID(int id)
@@ -167,6 +184,8 @@ namespace SMS_backend.Controllers
             int pageNumber,
             int pageSize,
             string searchTerm);
+        Task<int> AllPositionsCount();
+        Task<int> ActivePositionsCount();
         Task<PositionResponse> GetPositionByID(int id);
         Task<PositionResponse> CreatePosition(CreatePositionRequest request);
         Task<PositionResponse> UpdatePositionByID(UpdatePositionRequest request, int id);
@@ -228,6 +247,21 @@ namespace SMS_backend.Controllers
         {
             var query = _queries.PaginatedPositions(searchTerm);
             return await PaginationHelper.PaginateAndMap<Position, PositionResponse>(query, pageNumber, pageSize, _mapper);
+        }
+        // [HttpGet("positions/count")] - Total
+        public async Task<int> AllPositionsCount()
+        {
+            return await _context.Position
+                .AsNoTracking()
+                .CountAsync();
+        }
+        // [HttpGet("positions/count")] - Active
+        public async Task<int> ActivePositionsCount()
+        {
+            return await _context.Position
+                .AsNoTracking()
+                .Where(p => p.RecordStatus == RecordStatus.Active)
+                .CountAsync();
         }
         // [HttpGet("position/{id}")]
         public async Task<PositionResponse> GetPositionByID(int id)
