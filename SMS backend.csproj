@@ -22,7 +22,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\Entities\Library\Book\" />
+	  <Folder Include="Controllers\Library\" />
+	  <Folder Include="Models\Mapper\" />
+	  <Folder Include="Models\Configuration\" />
 	</ItemGroup>
 
 </Project>
