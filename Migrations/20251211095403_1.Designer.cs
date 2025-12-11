@@ -12,7 +12,7 @@ using SMS_backend;
 namespace SMS_backend.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20251211054225_1")]
+    [Migration("20251211095403_1")]
     partial class _1
     {
         /// <inheritdoc />

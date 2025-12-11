@@ -261,5 +261,24 @@ namespace SMS_backend.Utils
                     DepartmentID = 19
                 });
         }
+        public static async Task SeedSuperAdminAsync(IServiceProvider service)
+        {
+
+            var context = service.GetRequiredService<Db>();
+            if (!context.Users.Any(U => U.ID == 1))
+            {
+                var admin = new User
+                {
+                    ID = 1,
+                    FirstName = "Super",
+                    LastName = "Admin",
+                    Username = "000000",
+                    Password = BCrypt.Net.BCrypt.HashPassword("@temp123"),
+                    RecordStatus = RecordStatus.Active
+                };
+                context.Users.Add(admin);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -18,20 +18,23 @@ namespace SMS_backend.Utils
         public static IServiceCollection AddHelper(this IServiceCollection service)
         {
             service.AddScoped<AuthUserHelper>();
+            service.AddScoped<JWTHelper>();
             return service;
         }
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
 
             service.AddScoped<DepartmentService>();
-
+            service.AddScoped<PositionService>();
+            service.AddScoped<UserService>();
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
         {
             
             service.AddScoped<DepartmentQuery>();
-           
+            service.AddScoped<PositionQuery>();
+            service.AddScoped<UserQuery>();
             return service;
         }
         public static IServiceCollection AddCORS(this IServiceCollection service)
