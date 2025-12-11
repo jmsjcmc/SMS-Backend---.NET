@@ -1,25 +1,22 @@
 ﻿namespace SMS_backend.Models
 {
-    public class User
+    public class Role
     {
         public int ID { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        public string? Avatar { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public int? CreatorID { get; set; }
         public User? Creator { get; set; }
         public DateTime? CreatedOn { get; set; }
         public RecordStatus? RecordStatus { get; set; }
-        public ICollection<UserLog>? UserLogs { get; set; }
+        public ICollection<RoleLog>? RoleLogs { get; set; }
         public ICollection<UserRole>? UserRoles { get; set; }
     }
-    public class UserLog
+    public class RoleLog
     {
         public int ID { get; set; }
-        public int? UserID { get; set; }
-        public User? User { get; set; }
+        public int? RoleID { get; set; }
+        public Role? Role { get; set; }
         public int? UpdaterID { get; set; }
         public User? Updater { get; set; }
         public DateTime? UpdatedOn { get; set; }

@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SMS_backend.Models.Entities;
+using SMS_backend.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -41,12 +41,12 @@ namespace SMS_backend.Utils
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                 new Claim(ClaimTypes.Name, user.Username)
             };
-            if (user.UserRole != null && user.UserRole.Any())
+            if (user.UserRoles != null && user.UserRoles.Any())
             {
-                foreach (var userRole in user.UserRole)
+                foreach (var userRole in user.UserRoles)
                 {
                     if (userRole.Role != null)
                     {
@@ -66,43 +66,26 @@ namespace SMS_backend.Utils
             return tokenHandler.WriteToken(token);
         }
     }
-    public static class PaginationHelper // Pagination Helper
+    public static class PaginationHelper
     {
-        public static async Task<List<TDestination>> PaginateAndProject<TSource, TDestination>(
-            IQueryable<TSource> query,
-            int pageNumber,
-            int pageSize,
-            IMapper mapper)
-        {
-            return await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ProjectTo<TDestination>(mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
-        public static Pagination<T> PaginatedResponse<T>(
-            List<T> items,
-            int totalCount,
+        public static async Task<Pagination<T>> PaginatedAndMap<T>(
+            IQueryable<T> query,
             int pageNumber,
             int pageSize)
         {
+            var totalItems = await query.CountAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
             return new Pagination<T>
             {
-                Items = items,
-                TotalCount = totalCount,
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = pageSize,
+                TotalCount = totalItems,
+                Items = items
             };
-        }
-        public static async Task<Pagination<TDestination>> PaginateAndMap<TSource, TDestination>(
-            IQueryable<TSource> query,
-            int pageNumber,
-            int pageSize,
-            IMapper mapper)
-        {
-            var totalCount = await query.CountAsync();
-            var item = await PaginateAndProject<TSource, TDestination>(query, pageNumber, pageSize, mapper);
-            return PaginatedResponse(item, totalCount, pageNumber, pageSize);
         }
     }
     public static class DateTimeHelper // Helper for fetching exact present Philippine time instead of local time

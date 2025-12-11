@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SMS_backend.Controllers;
+using SMS_backend.Models;
 using System.Text;
 
 namespace SMS_backend.Utils
@@ -21,22 +22,16 @@ namespace SMS_backend.Utils
         }
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
-            service.AddScoped<UserService>();
-            service.AddScoped<RoleService>();
+
             service.AddScoped<DepartmentService>();
-            service.AddScoped<PositionService>();
-            service.AddScoped<ProductService>();
-            service.AddScoped<CategoryService>();
+
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
         {
-            service.AddScoped<UserQueries>();
-            service.AddScoped<RoleQueries>();
-            service.AddScoped<DepartmentQueries>();
-            service.AddScoped<PositionQueries>();
-            service.AddScoped<ProductQueries>();
-            service.AddScoped<CategoryQueries>();
+            
+            service.AddScoped<DepartmentQuery>();
+           
             return service;
         }
         public static IServiceCollection AddCORS(this IServiceCollection service)
