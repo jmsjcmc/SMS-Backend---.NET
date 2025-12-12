@@ -18,6 +18,19 @@ namespace SMS_backend
         public DbSet<PositionLog> PositionLogs { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserRoleLog> UserRoleLogs { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleLog> RoleLogs { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<AuthorLog> AuthorLogs { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookLog> BookLogs { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<PublisherLog> PublisherLogs { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryLog> CategoryLogs { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductLog> ProductLogs { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

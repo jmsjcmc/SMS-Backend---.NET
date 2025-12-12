@@ -23,14 +23,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<Db>();
-
-    context.Database.Migrate();
-    await Seeder.SeedSuperAdminAsync(services);
-}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

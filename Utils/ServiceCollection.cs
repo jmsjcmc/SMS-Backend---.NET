@@ -23,18 +23,22 @@ namespace SMS_backend.Utils
         }
         public static IServiceCollection AddServices(this IServiceCollection service)
         {
-
             service.AddScoped<DepartmentService>();
             service.AddScoped<PositionService>();
             service.AddScoped<UserService>();
+            service.AddScoped<RoleService>();
+            service.AddScoped<UserRoleService>();
+            service.AddScoped<CategoryService>();
             return service;
         }
         public static IServiceCollection AddQueries(this IServiceCollection service)
         {
-            
             service.AddScoped<DepartmentQuery>();
             service.AddScoped<PositionQuery>();
             service.AddScoped<UserQuery>();
+            service.AddScoped<RoleQuery>();
+            service.AddScoped<UserRoleQuery>();
+            service.AddScoped<CategoryQuery>();
             return service;
         }
         public static IServiceCollection AddCORS(this IServiceCollection service)

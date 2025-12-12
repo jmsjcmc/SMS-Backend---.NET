@@ -12,6 +12,7 @@
         public DateTime? CreatedOn { get; set; }
         public RecordStatus? RecordStatus { get; set; }
         public ICollection<PositionLog>? PositionLogs { get; set; }
+        public ICollection<User>? Users { get; set; }
     }
     public class PositionLog
     {

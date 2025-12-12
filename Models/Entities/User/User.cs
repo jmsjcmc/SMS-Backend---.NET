@@ -8,12 +8,13 @@
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string? Avatar { get; set; }
-        public int? CreatorID { get; set; }
-        public User? Creator { get; set; }
+        public int? PositionID { get; set; }
+        public Position? Position { get; set; }
         public DateTime? CreatedOn { get; set; }
         public RecordStatus? RecordStatus { get; set; }
         public ICollection<UserLog>? UserLogs { get; set; }
         public ICollection<UserRole>? UserRoles { get; set; }
+        public ICollection<RefreshToken>? RefreshTokens { get; set; }
     }
     public class UserLog
     {

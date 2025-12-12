@@ -24,18 +24,12 @@ namespace SMS_backend.Migrations
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatorID = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RecordStatus = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Users_Users_CreatorID",
-                        column: x => x.CreatorID,
-                        principalTable: "Users",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +55,7 @@ namespace SMS_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -74,9 +68,9 @@ namespace SMS_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.ID);
+                    table.PrimaryKey("PK_Roles", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Role_Users_CreatorID",
+                        name: "FK_Roles_Users_CreatorID",
                         column: x => x.CreatorID,
                         principalTable: "Users",
                         principalColumn: "ID");
@@ -161,7 +155,7 @@ namespace SMS_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleLog",
+                name: "RoleLogs",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -172,14 +166,14 @@ namespace SMS_backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleLog", x => x.ID);
+                    table.PrimaryKey("PK_RoleLogs", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_RoleLog_Role_RoleID",
+                        name: "FK_RoleLogs_Roles_RoleID",
                         column: x => x.RoleID,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_RoleLog_Users_UpdaterID",
+                        name: "FK_RoleLogs_Users_UpdaterID",
                         column: x => x.UpdaterID,
                         principalTable: "Users",
                         principalColumn: "ID");
@@ -200,9 +194,9 @@ namespace SMS_backend.Migrations
                 {
                     table.PrimaryKey("PK_UserRoles", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Role_RoleID",
+                        name: "FK_UserRoles_Roles_RoleID",
                         column: x => x.RoleID,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_AssignerID",
@@ -354,19 +348,19 @@ namespace SMS_backend.Migrations
                 column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Role_CreatorID",
-                table: "Role",
-                column: "CreatorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleLog_RoleID",
-                table: "RoleLog",
+                name: "IX_RoleLogs_RoleID",
+                table: "RoleLogs",
                 column: "RoleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleLog_UpdaterID",
-                table: "RoleLog",
+                name: "IX_RoleLogs_UpdaterID",
+                table: "RoleLogs",
                 column: "UpdaterID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_CreatorID",
+                table: "Roles",
+                column: "CreatorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLogs_UpdaterID",
@@ -402,11 +396,6 @@ namespace SMS_backend.Migrations
                 name: "IX_UserRoles_UserID",
                 table: "UserRoles",
                 column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CreatorID",
-                table: "Users",
-                column: "CreatorID");
         }
 
         /// <inheritdoc />
@@ -419,7 +408,7 @@ namespace SMS_backend.Migrations
                 name: "PositionLogs");
 
             migrationBuilder.DropTable(
-                name: "RoleLog");
+                name: "RoleLogs");
 
             migrationBuilder.DropTable(
                 name: "UserLogs");
@@ -437,7 +426,7 @@ namespace SMS_backend.Migrations
                 name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -26,7 +26,9 @@ namespace SMS_backend.Models
                     FullName = $"{U.FirstName} {U.LastName}",
                     Username = U.Username,
                     Avatar = U.Avatar,
-                    RecordStatus = U.RecordStatus
+                    RecordStatus = U.RecordStatus,
+                    PositionID = U.PositionID,
+
                 }).SingleOrDefaultAsync();
         }
         public IQueryable<UserOnlyResponse> UserOnlyResponseAsync(string? searchTerm, RecordStatus? recordStatus)

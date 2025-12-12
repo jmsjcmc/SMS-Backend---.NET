@@ -7,9 +7,9 @@ namespace SMS_backend.Models
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasOne(U => U.Creator)
-                .WithMany()
-                .HasForeignKey(U => U.CreatorID);
+            builder.HasOne(U => U.Position)
+                .WithMany(P => P.Users)
+                .HasForeignKey(U => U.PositionID);
         }
     }
     public class UserLogConfiguration : IEntityTypeConfiguration<UserLog>

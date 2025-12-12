@@ -28,7 +28,11 @@ namespace SMS_backend.Utils
             if (user == null)
                 return 0;
 
-            var value = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var value = user.FindFirst("UserID")?.Value;
+            if (string.IsNullOrEmpty(value))
+            {
+                value = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            }
             if (int.TryParse(value, out int userID))
             {
                 return userID;

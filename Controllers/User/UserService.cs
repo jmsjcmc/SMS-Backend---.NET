@@ -43,11 +43,10 @@ namespace SMS_backend.Controllers
                 AccessToken = accessToken
             };
         }
-        public async Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request, ClaimsPrincipal creator)
+        public async Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request)
         {
             var newUser = _mapper.Map<User>(request);
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            newUser.CreatorID = AuthUserHelper.GetUserID(creator);
             newUser.CreatedOn = DateTimeHelper.GetPhilippineStandardTime();
             newUser.RecordStatus = RecordStatus.Active;
 

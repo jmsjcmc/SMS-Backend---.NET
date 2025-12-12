@@ -23,7 +23,7 @@ namespace SMS_backend.Controllers
         [HttpPost("user/create")]
         public async Task<ActionResult<UserOnlyResponse?>> CreateUserAsync(CreateUserRequest request)
         {
-            var response = await _userService.CreateUserAsync(request, User);
+            var response = await _userService.CreateUserAsync(request);
             return response;
         }
         [HttpPatch("user/{ID}/patch")]
@@ -45,9 +45,9 @@ namespace SMS_backend.Controllers
             return response;
         }
         [HttpGet("user/me")]
-        public async Task<ActionResult<UserWithRoleResponse?>> GetAuthenticatedUserDetailAsync(ClaimsPrincipal authenticated)
+        public async Task<ActionResult<UserWithRoleResponse?>> GetAuthenticatedUserDetailAsync()
         {
-            var response = await _userService.GetAuthenticatedUserDetailAsync(authenticated);
+            var response = await _userService.GetAuthenticatedUserDetailAsync(User);
             return response;
         }
         [HttpGet("user/{ID}")]

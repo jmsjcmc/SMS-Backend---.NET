@@ -12,7 +12,7 @@ namespace SMS_backend.Controllers
         Task<ActionResult<UserOnlyResponse?>> PatchUserByIDAsync(int ID, UpdateUserRequest request);
         Task<ActionResult<UserOnlyResponse?>> PatchUserStatusByIDAsync(int ID, RecordStatus? recordStatus);
         Task<ActionResult<UserOnlyResponse?>> DeleteUserByIDAsync(int ID);
-        Task<ActionResult<UserWithRoleResponse?>> GetAuthenticatedUserDetailAsync(ClaimsPrincipal authenticated);
+        Task<ActionResult<UserWithRoleResponse?>> GetAuthenticatedUserDetailAsync();
         Task<ActionResult<UserOnlyResponse?>> GetUserByIDAsync(int ID);
         Task<ActionResult<Pagination<UserOnlyResponse>>> GetPaginatedUsersAsync(
             int pageNumber,
@@ -24,7 +24,8 @@ namespace SMS_backend.Controllers
     public interface IUserService
     {
         Task<LogInResponse> LogInAsync(LogInRequest request);
-        Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request, ClaimsPrincipal creator);
+        Task<LogInResponse> RefreshAsync(RefreshRequest request);
+        Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request);
         Task<UserOnlyResponse?> PatchUserByIDAsync(int ID, UpdateUserRequest request, ClaimsPrincipal updater);
         Task<UserOnlyResponse?> PatchUserStatusByIDAsync(int ID, RecordStatus? recordStatus, ClaimsPrincipal updater);
         Task<UserOnlyResponse?> DeleteUserByIDAsync(int ID);

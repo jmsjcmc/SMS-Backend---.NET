@@ -22,6 +22,182 @@ namespace SMS_backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("SMS_backend.Models.Author", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("AuthorStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatorID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateOfDeath")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VIAF_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WebSiteURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatorID");
+
+                    b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.AuthorLog", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdaterID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.HasIndex("UpdaterID");
+
+                    b.ToTable("AuthorLogs");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.Book", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatorID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DeweyDecimal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EditionNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN10")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN13")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDigital")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LanguageCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicationYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PublisherID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecordStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TotalPages")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.HasIndex("CreatorID");
+
+                    b.HasIndex("PublisherID");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.BookLog", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("BookID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdaterID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BookID");
+
+                    b.HasIndex("UpdaterID");
+
+                    b.ToTable("BookLogs");
+                });
+
             modelBuilder.Entity("SMS_backend.Models.Department", b =>
                 {
                     b.Property<int>("ID")
@@ -390,6 +566,92 @@ namespace SMS_backend.Migrations
                     b.ToTable("PositionLogs");
                 });
 
+            modelBuilder.Entity("SMS_backend.Models.Publisher", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("AddressLine1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPerson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatorID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateEstablished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InternalNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RecordStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShortCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateProvince")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CreatorID");
+
+                    b.ToTable("Publishers");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.PublisherLog", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("PublisherID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdaterID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PublisherID");
+
+                    b.HasIndex("UpdaterID");
+
+                    b.ToTable("PublisherLogs");
+                });
+
             modelBuilder.Entity("SMS_backend.Models.Role", b =>
                 {
                     b.Property<int>("ID")
@@ -417,7 +679,7 @@ namespace SMS_backend.Migrations
 
                     b.HasIndex("CreatorID");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("SMS_backend.Models.RoleLog", b =>
@@ -443,7 +705,7 @@ namespace SMS_backend.Migrations
 
                     b.HasIndex("UpdaterID");
 
-                    b.ToTable("RoleLog");
+                    b.ToTable("RoleLogs");
                 });
 
             modelBuilder.Entity("SMS_backend.Models.User", b =>
@@ -460,9 +722,6 @@ namespace SMS_backend.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatorID")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -472,6 +731,9 @@ namespace SMS_backend.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PositionID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RecordStatus")
                         .HasColumnType("int");
 
@@ -480,7 +742,7 @@ namespace SMS_backend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CreatorID");
+                    b.HasIndex("PositionID");
 
                     b.ToTable("Users");
                 });
@@ -568,6 +830,66 @@ namespace SMS_backend.Migrations
                     b.ToTable("UserRoleLogs");
                 });
 
+            modelBuilder.Entity("SMS_backend.Models.Author", b =>
+                {
+                    b.HasOne("SMS_backend.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorID");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.AuthorLog", b =>
+                {
+                    b.HasOne("SMS_backend.Models.Author", "Author")
+                        .WithMany("AuthorLogs")
+                        .HasForeignKey("AuthorID");
+
+                    b.HasOne("SMS_backend.Models.User", "Updater")
+                        .WithMany()
+                        .HasForeignKey("UpdaterID");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Updater");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.Book", b =>
+                {
+                    b.HasOne("SMS_backend.Models.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorID");
+
+                    b.HasOne("SMS_backend.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorID");
+
+                    b.HasOne("SMS_backend.Models.Publisher", "Publisher")
+                        .WithMany("Books")
+                        .HasForeignKey("PublisherID");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.BookLog", b =>
+                {
+                    b.HasOne("SMS_backend.Models.Book", "Book")
+                        .WithMany("BookLogs")
+                        .HasForeignKey("BookID");
+
+                    b.HasOne("SMS_backend.Models.User", "Updater")
+                        .WithMany()
+                        .HasForeignKey("UpdaterID");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Updater");
+                });
+
             modelBuilder.Entity("SMS_backend.Models.Department", b =>
                 {
                     b.HasOne("SMS_backend.Models.User", "Creator")
@@ -622,6 +944,30 @@ namespace SMS_backend.Migrations
                     b.Navigation("Updater");
                 });
 
+            modelBuilder.Entity("SMS_backend.Models.Publisher", b =>
+                {
+                    b.HasOne("SMS_backend.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorID");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.PublisherLog", b =>
+                {
+                    b.HasOne("SMS_backend.Models.Publisher", "Publisher")
+                        .WithMany("PublisherLogs")
+                        .HasForeignKey("PublisherID");
+
+                    b.HasOne("SMS_backend.Models.User", "Updater")
+                        .WithMany()
+                        .HasForeignKey("UpdaterID");
+
+                    b.Navigation("Publisher");
+
+                    b.Navigation("Updater");
+                });
+
             modelBuilder.Entity("SMS_backend.Models.Role", b =>
                 {
                     b.HasOne("SMS_backend.Models.User", "Creator")
@@ -648,11 +994,11 @@ namespace SMS_backend.Migrations
 
             modelBuilder.Entity("SMS_backend.Models.User", b =>
                 {
-                    b.HasOne("SMS_backend.Models.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorID");
+                    b.HasOne("SMS_backend.Models.Position", "Position")
+                        .WithMany("Users")
+                        .HasForeignKey("PositionID");
 
-                    b.Navigation("Creator");
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("SMS_backend.Models.UserLog", b =>
@@ -706,6 +1052,18 @@ namespace SMS_backend.Migrations
                     b.Navigation("UserRole");
                 });
 
+            modelBuilder.Entity("SMS_backend.Models.Author", b =>
+                {
+                    b.Navigation("AuthorLogs");
+
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.Book", b =>
+                {
+                    b.Navigation("BookLogs");
+                });
+
             modelBuilder.Entity("SMS_backend.Models.Department", b =>
                 {
                     b.Navigation("DepartmentLogs");
@@ -716,6 +1074,15 @@ namespace SMS_backend.Migrations
             modelBuilder.Entity("SMS_backend.Models.Position", b =>
                 {
                     b.Navigation("PositionLogs");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SMS_backend.Models.Publisher", b =>
+                {
+                    b.Navigation("Books");
+
+                    b.Navigation("PublisherLogs");
                 });
 
             modelBuilder.Entity("SMS_backend.Models.Role", b =>
