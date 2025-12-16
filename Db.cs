@@ -31,6 +31,8 @@ namespace SMS_backend
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductLog> ProductLogs { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<DailyPrice> DailyPrices { get; set; }
+        public DbSet<DailyPriceLog> DailyPriceLogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
