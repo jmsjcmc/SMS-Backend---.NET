@@ -7,7 +7,9 @@ namespace SMS_backend.Controllers
 {
     public interface IUserController
     {
+
         Task<ActionResult<LogInResponse>> LogInAsync(LogInRequest request);
+        Task<LogInResponse> RefreshAsync(RefreshRequest request);
         Task<ActionResult<UserOnlyResponse?>> CreateUserAsync(CreateUserRequest request);
         Task<ActionResult<UserOnlyResponse?>> PatchUserByIDAsync(int ID, UpdateUserRequest request);
         Task<ActionResult<UserOnlyResponse?>> PatchUserStatusByIDAsync(int ID, RecordStatus? recordStatus);

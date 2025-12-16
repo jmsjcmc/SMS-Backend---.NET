@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SMS_backend.Models;
 using SMS_backend.Utils;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace SMS_backend.Controllers
@@ -41,6 +42,56 @@ namespace SMS_backend.Controllers
             return new LogInResponse
             {
                 AccessToken = accessToken
+            };
+        }
+        public async Task<LogInResponse> RefreshAsync(RefreshRequest request)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(request.AccessToken);
+            var jti = jwtToken.Id;
+            var userID = int.Parse(jwtToken.Claims.First(X => X.Type == "UserID").Value);
+            var refreshToken = await _context.RefreshTokens
+                .SingleOrDefaultAsync(X => X.Token == request.RefreshToken &&
+                X.UserID == userID);
+
+            var IPAddress = HttpContext.Connection, Remove
+
+            if (refreshToken == null || !refreshToken.IsActive || refreshToken.JwtID != jti)
+                throw new UnauthorizedAccessException("INVALID REFRESH TOKEN");
+
+            refreshToken.RevokedAt = DateTimeHelper.GetPhilippineStandardTime();
+
+            var newRefreshToken = new RefreshToken
+            {
+                UserID = userID,
+                Token = _jwtHelper.GenerateRefreshToken(),
+                JwtID = Guid.NewGuid().ToString(),
+                CreatedAt = DateTimeHelper.GetPhilippineStandardTime(),
+                ExpiresAt = DateTimeHelper.GetPhilippineStandardTime().AddDays(7),
+                IPAddress = request.IPAddress,
+                UserAgent = request.UserAgent,
+            };
+
+            await _context.RefreshTokens.AddAsync(newRefreshToken);
+
+            var roles = await _context.UserRoles
+                .Where(UR => UR.UserID == userID)
+                .Select(UR => UR.Role.Name)
+                .ToListAsync();
+
+            var newAccessToken = _jwtHelper.GenerateToken(
+                userID,
+                jwtToken.Subject,
+                roles);
+
+            await _context.SaveChangesAsync();
+
+            return new LogInResponse
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken.Token,
+                AccessTokenExpiresAt = DateTimeHelper.GetPhilippineStandardTime().AddMinutes(30),
+                RefreshTokenExpiresAt = newRefreshToken.ExpiresAt
             };
         }
         public async Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request)

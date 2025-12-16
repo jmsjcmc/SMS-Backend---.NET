@@ -33,7 +33,7 @@ namespace SMS_backend.Utils
                 issuer: jwtIssuer,
                 audience: jwtIssuer,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTimeHelper.GetPhilippineStandardTime().AddMinutes(15),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

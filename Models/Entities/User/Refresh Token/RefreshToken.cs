@@ -13,6 +13,7 @@
         public string? ReplacedByToken { get; set; }
         public string? IPAddress { get; set; }
         public string? UserAgent { get; set; }
-        public int MyProperty { get; set; }
+        public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
+        public bool IsActive => RevokedAt == null && !IsExpired;
     }
 }
