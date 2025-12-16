@@ -44,7 +44,7 @@ namespace SMS_backend.Controllers
                 AccessToken = accessToken
             };
         }
-        public async Task<LogInResponse> RefreshAsync(RefreshRequest request)
+        public async Task<LogInResponse> RefreshAsync(RefreshRequest request, string? IPAddress, string? UserAgent)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(request.AccessToken);
@@ -54,7 +54,6 @@ namespace SMS_backend.Controllers
                 .SingleOrDefaultAsync(X => X.Token == request.RefreshToken &&
                 X.UserID == userID);
 
-            var IPAddress = HttpContext.Connection, Remove
 
             if (refreshToken == null || !refreshToken.IsActive || refreshToken.JwtID != jti)
                 throw new UnauthorizedAccessException("INVALID REFRESH TOKEN");
@@ -68,8 +67,8 @@ namespace SMS_backend.Controllers
                 JwtID = Guid.NewGuid().ToString(),
                 CreatedAt = DateTimeHelper.GetPhilippineStandardTime(),
                 ExpiresAt = DateTimeHelper.GetPhilippineStandardTime().AddDays(7),
-                IPAddress = request.IPAddress,
-                UserAgent = request.UserAgent,
+                IPAddress = IPAddress,
+                UserAgent = UserAgent,
             };
 
             await _context.RefreshTokens.AddAsync(newRefreshToken);

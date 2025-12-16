@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMS_backend.Models;
 using SMS_backend.Utils;
-using System.Security.Claims;
 
 namespace SMS_backend.Controllers
 {
@@ -18,6 +17,15 @@ namespace SMS_backend.Controllers
         public async Task<ActionResult<LogInResponse>> LogInAsync(LogInRequest request)
         {
             var response = await _userService.LogInAsync(request);
+            return response;
+        }
+        [HttpPost("user/refresh-token")]
+        public async Task<ActionResult<LogInResponse>> RefreshAsync(RefreshRequest request)
+        {
+            var IPAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var UserAgent = Request.Headers["User-Agent"].ToString();
+
+            var response = await _userService.RefreshAsync(request, IPAddress, UserAgent);
             return response;
         }
         [HttpPost("user/create")]

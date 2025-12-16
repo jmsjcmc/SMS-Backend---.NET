@@ -9,7 +9,7 @@ namespace SMS_backend.Controllers
     {
 
         Task<ActionResult<LogInResponse>> LogInAsync(LogInRequest request);
-        Task<LogInResponse> RefreshAsync(RefreshRequest request);
+        Task<ActionResult<LogInResponse>> RefreshAsync(RefreshRequest request);
         Task<ActionResult<UserOnlyResponse?>> CreateUserAsync(CreateUserRequest request);
         Task<ActionResult<UserOnlyResponse?>> PatchUserByIDAsync(int ID, UpdateUserRequest request);
         Task<ActionResult<UserOnlyResponse?>> PatchUserStatusByIDAsync(int ID, RecordStatus? recordStatus);
@@ -26,7 +26,7 @@ namespace SMS_backend.Controllers
     public interface IUserService
     {
         Task<LogInResponse> LogInAsync(LogInRequest request);
-        Task<LogInResponse> RefreshAsync(RefreshRequest request);
+        Task<LogInResponse> RefreshAsync(RefreshRequest request, string? IPAddress, string? UserAgent);
         Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request);
         Task<UserOnlyResponse?> PatchUserByIDAsync(int ID, UpdateUserRequest request, ClaimsPrincipal updater);
         Task<UserOnlyResponse?> PatchUserStatusByIDAsync(int ID, RecordStatus? recordStatus, ClaimsPrincipal updater);
