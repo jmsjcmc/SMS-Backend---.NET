@@ -6,6 +6,7 @@
         public int? ProductID { get; set; }
         public Product? Product { get; set; }
         public string? Price { get; set; }
+        public int? Quantity { get; set; }
         public DateTime? CreatedOn { get; set; }
         public int? CreatorID { get; set; }
         public User? Creator { get; set; }
