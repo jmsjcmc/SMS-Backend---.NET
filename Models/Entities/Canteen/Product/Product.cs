@@ -11,7 +11,8 @@
         public DateTime? CreatedOn { get; set; }
         public RecordStatus? RecordStatus { get; set; }
         public ICollection<ProductLog>? ProductLogs { get; set; }
-        public ICollection<DailyPrice>? DailyPrices { get; set; }
+        public ICollection<ProductInventory>? ProductInventories { get; set; }
+        public ICollection<DailyConsumption>? DailyConsumptions { get; set; }
     }
     public class ProductLog
     {
