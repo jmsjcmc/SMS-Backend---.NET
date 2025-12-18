@@ -95,6 +95,9 @@ namespace SMS_backend.Controllers
         }
         public async Task<UserOnlyResponse?> CreateUserAsync(CreateUserRequest request)
         {
+            if (await _context.Users.AnyAsync(U => U.Username == request.Username))
+                throw new ArgumentException("USERNAME ALREADY EXIST");
+
             var newUser = _mapper.Map<User>(request);
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             newUser.CreatedOn = DateTimeHelper.GetPhilippineStandardTime();
