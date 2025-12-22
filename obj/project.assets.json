@@ -5172,23 +5172,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jatabilog\\.nuget\\packages\\": {},
+    "C:\\Users\\james\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jatabilog\\Desktop\\Back End\\.Net\\SMS-Backend---.NET\\SMS backend.csproj",
+      "projectUniqueName": "C:\\Users\\james\\Desktop\\Repositories\\backend\\SMS-Backend---.NET\\SMS backend.csproj",
       "projectName": "SMS backend",
-      "projectPath": "C:\\Users\\jatabilog\\Desktop\\Back End\\.Net\\SMS-Backend---.NET\\SMS backend.csproj",
-      "packagesPath": "C:\\Users\\jatabilog\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jatabilog\\Desktop\\Back End\\.Net\\SMS-Backend---.NET\\obj\\",
+      "projectPath": "C:\\Users\\james\\Desktop\\Repositories\\backend\\SMS-Backend---.NET\\SMS backend.csproj",
+      "packagesPath": "C:\\Users\\james\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\james\\Desktop\\Repositories\\backend\\SMS-Backend---.NET\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\jatabilog\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\james\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5197,7 +5197,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5216,7 +5215,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -5276,7 +5275,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
